@@ -40,15 +40,45 @@ Når vi jobber med AWS, kan vi i stedet bruke tjenester som er spesielt designet
 | Relational Database Serivce | RDS          | RDS er en tjeneste for relasjonsdatabase. Her kan du lage databaseinstanser av typer som MySQL og Postgres. Med tradisjonelle servere må man gjerne passe på databaseinstansen, fordi de kjører på en server. Med RDS forholder du deg kun til databaseinstansen, ikke til serveren den kjører på. |
 | Lambda Functions            | -            | Lambda Functions lar deg kjøre kode, helt uten en tradisjonell server. ...                                                                                                                                                                                                                         |
 
+Videre vil vi sette opp hver av disse tjenestene etter tur.
+
 ### Steg 1: Sette opp Simple Storage Service (S3)
 
-Vi lager en bucket og laster opp webappen til den
+I første steg skal vi, så enkelt og raskt som mulig, legge webapplikasjonen vår på det åpne nettet. Det vil si: Vi skal kunne nå webapplikasjonen fra en nettadresse.
+
+1. Logg inn i [AWS Management Console](https://eu-west-1.console.aws.amazon.com/console)
+2. Naviger til S3. Det enkleste er å søke i feltet under «Find services».
+3. Du har nå kommet til S3, som viser deg en liste over de _buckets_ du har. Den er nok foreløpig tom. En bucket er som en slags mappe du kan gi visse rettigheter og egenskaper. For å opprette en slik, trykk «Create bucket»
+4. Gi den et navn som er DNS-compliant, det vil si at det må kunne være et domenenavn. Navn på _buckets_ må være unikt. Det betyr at ikke alle som gjør kurset kan ha samme navn på sin bucket. Vi foreslår at du gir denne bucketen `<hva du vil kalle din Event-tjeneste>.no`, for eksempel `123events.no`. Trykk «Next».
+5. I neste steg kan du gjøre flere valg for bøtta, som å tagge den (nyttig hvis man har mye forskjellig på en AWS konto), eller skru på versjonering av objektene. Vi trenger ikke noe av dette når vi bare skal lagre en nettside, så vi trykker «Next».
+6. Dette steget kontrollerer hvilke kontoer som kan sette tilganger for denne bucketen. For oss har ikke dette noe å si, fordi vi bruker en konto og en bruker. Bucketen sitt innhold skal være helt åpent for alle. Derfor kan du bare trykke «Next».
+7. Da kommer vi til siste steg. Se at alt ser okei ut, og trykk «Create bucket».
+
+Når bucketen er opprettet må vi gjøre den public. Det gjør vi ved å trykke
+
+Nå som du har en bucket med de ønskelige egenskaper og rettigheter, er vi klar for å laste opp webapplikasjonen:
+
+1. Åpne en ny terminal og gå til mappen du har lagt webapplikasjonen i
+2. Bygg webapplikasjonen (se instruksjoner i readme-fila i repoet)
+3.
+
+Endelig er alt klart: Vi kan publisere appen! Det gjør vi enten ved å dra filene vi vil publisere over i bucketen ved hjelp av nettleseren, eller ved hjelp av kommandolinjen.
+
+**Med nettleseren:**
+
+1. Logg inn i/åpne AWS Manamgenet Console, gå til S3 og åpne bucketen du ønsker å legge innholdet i
+   2
+
+**Med kommandolinje:**
+
+1. Åpne et shell med din AWS-konto koblet på, `aws-vault exec <din konto>`
+2. Publiser innholdet i din bucket med tilgang slik at alle kan lese filene: `aws s3 cp public/ s3://<navn på bucket> --acl public-read --recursive`
 
 ### Steg 2 API Gateway
 
 Vi oppretter API Gateway med endepunkter basert på en Swagger doc.
 
-### Steg3: Relational Database Serivce (RDS)
+### Steg 3: Relational Database Serivce (RDS)
 
 Vi oppretter en database i RDS vi kan gi til Lambda Functions
 
@@ -56,8 +86,21 @@ Vi oppretter en database i RDS vi kan gi til Lambda Functions
 
 Oppretter lambda functions og legger inn kode via console/CLI
 
+1. Åpne eller logg inn i [AWS Management Console](https://eu-west-1.console.aws.amazon.com/console)
+2. Gå til Lambda
+3. Trykk «Create function»
+4. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksemepl `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Choose an exisiting role», og så velger du «service-role/lambda_basic_execution» i dropdownen under.
+5. Trykk «Create function»
+
+**Sett instillingene til database som en miljøvariabler:**
+
+1. Under «Environment variables» legger du til `PG_URL` med verdien du hentet ut i slutten av steg 3, altså URL til Postgres-databasen.
+2. Legg også til `PG_USER` med verdi `postgres`, og `PG_PASSWORD` med passordet du satte på samme måte.
+3. Trykk «Save» øverst til høyre, og så «Actions» etterfulgt av «Publish new version».
+
 ### Advanced section
 
+-   IAM med roller for sikkerhet
 -   Lek med webappen og legg til nye features
 -   Legg til script i `package.json` for å deploye webappen
 -   CloudFront for webappen
