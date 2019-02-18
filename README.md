@@ -113,7 +113,7 @@ Vi oppretter en database i RDS vi kan gi til Lambda Functions
 
 Oppretter lambda functions og legger inn kode via console, eller ved hjelp av CLI
 
-**Last opp koden ved hjelp av konsollen:**
+#### Opprett Lambda-function
 
 1. Åpne eller logg inn i [AWS Management Console](https://eu-west-1.console.aws.amazon.com/console)
 2. Gå til Lambda
@@ -121,7 +121,15 @@ Oppretter lambda functions og legger inn kode via console, eller ved hjelp av CL
 4. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksemepl `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Choose an exisiting role», og så velger du `service-role/lambda_basic_execution` i dropdownen under.
 5. Trykk «Create function»
 
-**Sett instillingene til database som en miljøvariabler:**
+#### Last opp koden til Lambda-function
+
+Du kan laste opp kode til en Lambda ved hjelp av konsoll eller kommandolinjen.
+
+**Med nettleseren:**
+
+**Med kommandolinje:**
+
+#### Sett instillingene til database som en miljøvariabler
 
 1. Under «Environment variables» legger du til `PG_URL` med verdien du hentet ut i slutten av steg 3, altså URL til Postgres-databasen.
 2. Legg også til `PG_USER` med verdi `postgres`, og `PG_PASSWORD` med passordet du satte på samme måte.
