@@ -1,0 +1,54 @@
+openapi: "3.0.1"
+info:
+  title: "kurs-test"
+  version: "2019-02-18T17:23:38Z"
+servers:
+- url: "https://jad9ltq7m2.execute-api.eu-west-1.amazonaws.com/{basePath}"
+  variables:
+    basePath:
+      default: "/prod"
+paths:
+  /events:
+    x-amazon-apigateway-any-method:
+      get:
+        responses:
+          200:
+            description: "200 response"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Empty"
+      post:
+          200:
+            description: "200 response"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Empty"
+      put:
+          200:
+            description: "200 response"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Empty"
+      delete:
+          200:
+            description: "200 response"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Empty"
+components:
+  schemas:
+    Empty:
+      title: "Empty Schema"
+      type: "object"
+    Data:
+      title: "Response with data"
+      type: "object"
+      properties:
+        id:
+          type: string
+        data:
+          type: object

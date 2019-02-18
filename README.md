@@ -77,22 +77,26 @@ Nå er selve bucketen åpnet for å kunne nås utenfra. Nå må vi laste opp inn
 
 #### Publiser applikasjonen
 
-Nå som du har en bucket med de ønskelige egenskaper og rettigheter, er vi klar for å laste opp webapplikasjonen:
+Nå som du har en bucket med de ønskelige egenskaper og rettigheter, er vi _nesten_ klar for å laste opp webapplikasjonen. Først, verifiser at du har bygget den. Det gjør du ved å se at du har en `dist` mappe i mappen til webappen. Hvis du ikke har det, gå til webappen sin README og se hvordan du bygger applikasjonen.
 
-1. Åpne en ny terminal og gå til mappen du har lagt webapplikasjonen i
-2. Bygg webapplikasjonen (se instruksjoner i readme-fila i repoet)
-3.
-
-Endelig er alt klart: Vi kan publisere appen! Det gjør vi enten ved å dra filene vi vil publisere over i bucketen ved hjelp av nettleseren, eller vi kan gjøre det ved hjelp av kommandolinjen.
+Når du har en bygg er endelig er alt klart: Vi kan publisere appen! Det gjør vi enten ved å dra filene vi vil publisere over i bucketen ved hjelp av nettleseren, eller vi kan gjøre det ved hjelp av kommandolinjen.
 
 **Med nettleseren:**
 
-1. Logg inn i/åpne AWS Manamgenet Console, gå til S3 og åpne bucketen du ønsker å legge innholdet i
+1. Logg inn i/åpne AWS Manamgenet Console, gå til S3 og åpne bucketen du ønsker å legge innholdet i.
+2. Trykk «Upload», åpne en filutforsker, marker innholdet i `dist`-mappen i webappprosjektet og dra innholdet over til AWS-vinduet
+3. Trykk «Next»
+4. Under «Manage public permissions» velger du `Grant public read access to this object(s)`.
+5. Trykk «Next»
+6. Og «Next» nok en gang. Til slutt «Upload»
 
 **Med kommandolinje:**
 
-1. Åpne et shell med din AWS-konto koblet på, `aws-vault exec <din konto>`
-2. Publiser innholdet i din bucket med tilgang slik at alle kan lese filene: `aws s3 cp public/ s3://<navn på bucket> --acl public-read --recursive`
+1. Åpne en ny terminal og gå til mappen du har klonet webapplikasjonen i
+2. Åpne et shell med din AWS-konto koblet på, `aws-vault exec <din konto>`
+3. Publiser innholdet i din bucket med tilgang slik at alle kan lese filene: `aws s3 cp dist/ s3://<navn på bucket> --acl public-read --recursive`.
+
+Når opplasting er ferdig bør du kunne nå applikasjonen på URLen vi lagret i stad.
 
 ### Steg 2 API Gateway
 
