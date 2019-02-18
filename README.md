@@ -26,11 +26,12 @@ I dette kurset skal vi først sette opp tjenester med nettleseren, i den såkalt
 Skisse som viser hvordan tingene henger sammen
 Tabell som forklarer rollen til de fire tjenestene
 
-| Tjeneste | Fortkortelse | Hva bruker vi den til? |
-| Simple Storage Service | S3 | S3 brukes til lagring av data som skal akksesseres rimelig ofte. Det betyr gjerne nettsider og bilder lagres her. For eksemepl bruker Imgur S3 til å lagre nettsider. S3 brukes også i stor grad til å lagre, og vise, statiske nettsider og webapplikasjoner. |
-| API Gateway | - | API Gateway lar deg definere endepunkt, og la disse peke på andre tjenester i AWS. Det betyr at du for eksempel kan lage et endepunkt for å lagre bilder i API Gateway, og peke det rett til S3. Da trenger du ikke programmere noe for å oppnå lagring via et API. |
-| Relational Database Serivce | RDS | RDS er en tjeneste for relasjonsdatabase. Her kan du lage databaseinstanser av typer som MySQL og Postgres. Med tradisjonelle servere må man gjerne passe på databaseinstansen, fordi de kjører på en server. Med RDS forholder du deg kun til databaseinstansen, ikke til serveren den kjører på. |
-| Lambda Functions | - | Lambda Functions lar deg kjøre kode, helt uten en tradisjonell server. ... |
+| Tjeneste                    | Fortkortelse | Hva bruker vi den til?                                                                                                                                                                                                                                                                             |
+| :-------------------------- | :----------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Simple Storage Service      | S3           | S3 brukes til lagring av data som skal akksesseres rimelig ofte. Det betyr gjerne nettsider og bilder lagres her. For eksemepl bruker Imgur S3 til å lagre nettsider. S3 brukes også i stor grad til å lagre, og vise, statiske nettsider og webapplikasjoner.                                     |
+| API Gateway                 | -            | API Gateway lar deg definere endepunkt, og la disse peke på andre tjenester i AWS. Det betyr at du for eksempel kan lage et endepunkt for å lagre bilder i API Gateway, og peke det rett til S3. Da trenger du ikke programmere noe for å oppnå lagring via et API.                                |
+| Relational Database Serivce | RDS          | RDS er en tjeneste for relasjonsdatabase. Her kan du lage databaseinstanser av typer som MySQL og Postgres. Med tradisjonelle servere må man gjerne passe på databaseinstansen, fordi de kjører på en server. Med RDS forholder du deg kun til databaseinstansen, ikke til serveren den kjører på. |
+| Lambda Functions            | -            | Lambda Functions lar deg kjøre kode, helt uten en tradisjonell server. ...                                                                                                                                                                                                                         |
 
 ### Steg 1: Sette opp Simple Storage Service (S3)
 
