@@ -8,7 +8,7 @@ Sørg for at du har gjort det som behøves på forhånd. Se PDF som ble sendt ut
 
 Så kan du klone repoer og sette opp kode:
 
-1. Klone dette repoet
+1. Klone dette repoet, `git clone https://github.com/capraconsulting/studentkurs-2019`.
 2. Klone [webapp](https://github.com/capraconsulting/studentkurs-2019-webapp) og følg instruksjonene der for å sette den opp
 
 ## Amazon Web Services (AWS)
@@ -44,7 +44,15 @@ Videre vil vi sette opp hver av disse tjenestene etter tur.
 
 ### Steg 1: Sette opp Simple Storage Service (S3)
 
-I første steg skal vi, så enkelt og raskt som mulig, legge webapplikasjonen vår på det åpne nettet. Det vil si: Vi skal kunne nå webapplikasjonen fra en nettadresse.
+I første steg skal vi, så enkelt og raskt som mulig, legge webapplikasjonen vår på det åpne nettet. Det vil si: Vi skal kunne nå webapplikasjonen fra en nettadresse. For å gjøre det må vi gjøre tre ting:
+
+1. Opprette en _bucket_ i S3
+2. Gjøre innholdet åpent tilgjengelig
+3. Laste opp webapplikasjonen til bucketen
+
+Vi kjører i gang!
+
+#### Opprette en bucket i S3
 
 1. Logg inn i [AWS Management Console](https://eu-west-1.console.aws.amazon.com/console)
 2. Naviger til S3. Det enkleste er å søke i feltet under «Find services».
@@ -54,7 +62,20 @@ I første steg skal vi, så enkelt og raskt som mulig, legge webapplikasjonen v�
 6. Dette steget kontrollerer hvilke kontoer som kan sette tilganger for denne bucketen. For oss har ikke dette noe å si, fordi vi bruker en konto og en bruker. Bucketen sitt innhold skal være helt åpent for alle. Derfor kan du bare trykke «Next».
 7. Da kommer vi til siste steg. Se at alt ser okei ut, og trykk «Create bucket».
 
-Når bucketen er opprettet må vi gjøre den public. Det gjør vi ved å trykke
+#### Gjør innholdet åpent tilgjengelig
+
+Når bucketen er opprettet må vi gjøre den public. Det gjør vi ved å trykke på navnet på bucketen, slik at vi går inn på den. Deretter gjør vi følgende:
+
+1. Velg «Properties» øverst
+2. Trykk på «Static web hosting»
+3. Kopier URL som står etter «Endpoint». Dette blir URL til webappen, så den må du lagre til senere.
+4. Velg «Use this bucket to host a website»
+5. Under «Index document» skriver du `index.html`, altså standard verdi man bruker for indeksdokument på en nettside.
+6. Trykk «Save»
+
+Nå er selve bucketen åpnet for å kunne nås utenfra. Nå må vi laste opp innhold, og sørge for at det også kan nås utenfra.
+
+#### Publiser applikasjonen
 
 Nå som du har en bucket med de ønskelige egenskaper og rettigheter, er vi klar for å laste opp webapplikasjonen:
 
@@ -62,12 +83,11 @@ Nå som du har en bucket med de ønskelige egenskaper og rettigheter, er vi klar
 2. Bygg webapplikasjonen (se instruksjoner i readme-fila i repoet)
 3.
 
-Endelig er alt klart: Vi kan publisere appen! Det gjør vi enten ved å dra filene vi vil publisere over i bucketen ved hjelp av nettleseren, eller ved hjelp av kommandolinjen.
+Endelig er alt klart: Vi kan publisere appen! Det gjør vi enten ved å dra filene vi vil publisere over i bucketen ved hjelp av nettleseren, eller vi kan gjøre det ved hjelp av kommandolinjen.
 
 **Med nettleseren:**
 
 1. Logg inn i/åpne AWS Manamgenet Console, gå til S3 og åpne bucketen du ønsker å legge innholdet i
-   2
 
 **Med kommandolinje:**
 
@@ -84,12 +104,14 @@ Vi oppretter en database i RDS vi kan gi til Lambda Functions
 
 ### Steg 4: Lambda Functions
 
-Oppretter lambda functions og legger inn kode via console/CLI
+Oppretter lambda functions og legger inn kode via console, eller ved hjelp av CLI
+
+**Last opp koden ved hjelp av konsollen:**
 
 1. Åpne eller logg inn i [AWS Management Console](https://eu-west-1.console.aws.amazon.com/console)
 2. Gå til Lambda
 3. Trykk «Create function»
-4. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksemepl `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Choose an exisiting role», og så velger du «service-role/lambda_basic_execution» i dropdownen under.
+4. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksemepl `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Choose an exisiting role», og så velger du `service-role/lambda_basic_execution` i dropdownen under.
 5. Trykk «Create function»
 
 **Sett instillingene til database som en miljøvariabler:**
