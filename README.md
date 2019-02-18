@@ -61,8 +61,8 @@ Vi kjører i gang!
 2. Naviger til S3. Det enkleste er å søke i feltet under «Find services».
 3. Du har nå kommet til S3, som viser deg en liste over de _buckets_ du har. Den er nok foreløpig tom. En bucket er som en slags mappe du kan gi visse rettigheter og egenskaper. For å opprette en slik, trykk «Create bucket»
 4. Gi den et navn som er DNS-compliant, det vil si at det må kunne være et domenenavn. Navn på _buckets_ må være unikt. Det betyr at ikke alle som gjør kurset kan ha samme navn på sin bucket. Vi foreslår at du gir denne bucketen `<hva du vil kalle din Event-tjeneste>.no`, for eksempel `123events.no`. Trykk «Next».
-5. I neste steg kan du gjøre flere valg for bøtta, som å tagge den (nyttig hvis man har mye forskjellig på en AWS konto), eller skru på versjonering av objektene. Vi trenger ikke noe av dette når vi bare skal lagre en nettside, så vi trykker «Next».
-6. Dette steget kontrollerer hvilke kontoer som kan sette tilganger for denne bucketen. For oss har ikke dette noe å si, fordi vi bruker en konto og en bruker. Bucketen sitt innhold skal være helt åpent for alle. Derfor kan du bare trykke «Next».
+5. I neste steg kan du gjøre flere valg for bøtta, som å tagge den (nyttig hvis man har mye forskjellig på en og samme AWS-konto), eller skru på versjonering av objektene. Vi trenger ikke noe av dette når vi bare skal lagre en nettside, så vi trykker «Next».
+6. Dette steget kontrollerer hvilke kontoer som kan sette tilganger for denne bucketen. For at vi skal kunne laste opp objekter og sette disse helt public (det skal jo være en nettside oppi), må vi fjerne markeringen ved «Block new public ACLs and uploading public objects (Recommended)» og «Remove public access granted through public ACLs (Recommended)». Gjør dette, og trykk «Next».
 7. Da kommer vi til siste steg. Se at alt ser okei ut, og trykk «Create bucket».
 
 #### Gjør innholdet åpent tilgjengelig
