@@ -109,6 +109,25 @@ Vi oppretter API Gateway med endepunkter basert på en Swagger doc.
 
 Vi oppretter en database i RDS vi kan gi til Lambda Functions
 
+#### Opprett databaseinstans i AWS
+
+1. Gå til RDS og velg «Create database»
+2. I første steg velger vi type database. I dette kurset velger vi Postgres, så velg dette og trykk «Next»
+3. Under Use case velger du «Dev/Test» og trykker «Next»
+4. I dette steget velger vi en rekke detaljer om databasen vi skal sette opp. Det viktigste her er «DB instance class» sier noe om hvor stor last instansen vil kunne håndtere, og dermed også kostnandsnivået. Her kan du velge `db.t2.micro`
+5. Under «Settings» setter vi navn på instansen, og brukernavn og passord for den. Instansnavnet kan for eksempel være `eventsapp`. Brukernavnet kan godt være det samme. Passordet bør være noe du finner på selv. Husk å notere deg navn, brukernavn og passord slik at du har det til senere. Trykk «Next»
+6. I dette steget får vi en rekke valg for databasen. Vi lar det meste stå som standard. Vi skal først og fremst sette et navn på databasen som skal kjøre på databaseinstansen. Denne kan godt være det samme om instansen, `eventsapp`. Trykk «Create database»
+
+Nå skal vi hente ut URL til databasen.
+
+1. Trykk «Databases» til venstre
+2. Finn den du nettopp lagde, og vent til status er blitt «Available». Når den er det, trykker du på den.
+3. Lagre verdien som står under «Endpoint», slik at vi har den til senere.. Den vil være noe sånt som: `<ditt-database-navn>.cwkzdvvfjrvm.eu-west-1.rds.amazonaws.com`.
+
+#### Hent ut instillinger
+
+#### Koble deg på
+
 ### Steg 4: Lambda Functions
 
 Oppretter lambda functions og legger inn kode via console, eller ved hjelp av CLI
@@ -135,11 +154,16 @@ Du kan laste opp kode til en Lambda ved hjelp av konsoll eller kommandolinjen.
 2. Legg også til `PG_USER` med verdi `postgres`, og `PG_PASSWORD` med passordet du satte på samme måte.
 3. Trykk «Save» øverst til høyre, og så «Actions» etterfulgt av «Publish new version».
 
-### Advanced section
+#### Steg 5: Bring it all together
+
+Vi sjekker at alt virker
+
+### Veien videre
 
 Ting vi kanskje kan lage ekstraoppgaver av:
 
--   IAM med roller for sikkerhet
 -   Lek med webappen og legg til nye features
--   Legg til script i `package.json` for å deploye webappen
 -   CloudFront for webappen
+-   Legg til script i `package.json` for å deploye webappen, tilsvarende for java
+-   Bruke developer services for å sette opp automatisk deploy?
+-   IAM med roller for sikkerhet
