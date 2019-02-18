@@ -5,11 +5,14 @@ I dette kurset skal vi sette opp en webapplikasjon med lagring til database med 
 ## Oppsett av utviklingsmiljø lokalt
 
 Sørg for at du har gjort det som behøves på forhånd. Se PDF som ble sendt ut før kurset. Hvis du ikke har fått den, ligger den [her]()
+Presentasjonen som Capra holdt kan du finne [her]().
 
-Så kan du klone repoer og sette opp kode:
+Når du har gjort det som må gjøres på forhånd, kan du fortsette med følgende:
 
 1. Klone dette repoet, `git clone https://github.com/capraconsulting/studentkurs-2019`.
 2. Klone [webapp](https://github.com/capraconsulting/studentkurs-2019-webapp) og følg instruksjonene der for å sette den opp
+
+Når dette er gjort er du klar til å sette i gang.
 
 ## Amazon Web Services (AWS)
 
@@ -125,6 +128,8 @@ Oppretter lambda functions og legger inn kode via console, eller ved hjelp av CL
 3. Trykk «Save» øverst til høyre, og så «Actions» etterfulgt av «Publish new version».
 
 ### Advanced section
+
+Ting vi kanskje kan lage ekstraoppgaver av:
 
 -   IAM med roller for sikkerhet
 -   Lek med webappen og legg til nye features
