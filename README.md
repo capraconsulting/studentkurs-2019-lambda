@@ -25,6 +25,8 @@ I dette kurset skal vi først sette opp tjenester med nettleseren, i den såkalt
 
 En vanlig webapplikasjon har tre lag: En frontend, en backend og en database. Frontenden er det vi ser, brukegrensesnittet. Backend har logikk og håndterer henvendelser fra frontend. Databasen lagrer data. Denne enkle figuren viser hvordan det kan se ut:
 
+![En enkel applikasjon med en backend, frontend og database.](images/simple-app-arch.png)
+
 Når vi kjører dette, enten lokalt eller på en server, pleier man å kjøre tre ting: En webpplikasjon (frontend), en backendapplikasjon (for eksempel skrevet i Java) og en database (som Postgres eller MySQL). Da må man passe på at serveren, eller egen maskin, er oppdatert og tettet for alle sikkerhetshull.
 
 Når vi jobber med AWS, kan vi i stedet bruke tjenester som er spesielt designet for det vi ønsker å gjøre, være seg å kjøre backendkode eller vise en webapplikasjon. Man kan kalle det å velge tjenester ut fra man ønsker å oppnå "Architecting for the Cloud". I dette kurset vil vi ha en arkitektur som ser slik ut:
