@@ -96,14 +96,36 @@ Når du har en bygg er endelig er alt klart: Vi kan publisere appen! Det gjør v
 **Med kommandolinje:**
 
 1. Åpne en ny terminal og gå til mappen du har klonet webapplikasjonen i
-2. Åpne et shell med din AWS-konto koblet på, `aws-vault exec <din konto>`
+2. Åpne et shell med din AWS-konto koblet på, `aws-vault exec <profilnavn>`
 3. Publiser innholdet i din bucket med tilgang slik at alle kan lese filene: `aws s3 cp dist/ s3://<navn på bucket> --acl public-read --recursive`.
 
 Når opplasting er ferdig bør du kunne nå applikasjonen på URLen vi lagret i stad.
 
-### Steg 2 API Gateway
+### Steg 2: API Gateway
 
-Vi oppretter API Gateway med endepunkter basert på en Swagger doc.
+API Gateway er en tjeneste i AWS for å lage APIer helt uten programmering, og så kunne koble disse mot andre tjenester i AWS. I vårt tilfelle skal vi lage endepunkter for å opprette, endre, slette og hente ut eventer fra databasen vår. For å gjøre dette må vi:
+
+1. Lage en Swagger/OpenAPI-spesifikasjon, som sier hvordan APIet skal se ut
+2. Importere denne til API Gateway
+3. Knytte endepunktene til andre tjenester i AWS, slik at endepunktene faktisk gjør noe. I vårt tilfelle betyr det at vi skal koble de til Lmabda-funksjoner.
+
+Men først: Hvordan skal APIet se ut? Vi trenger altså Create Read Update Delete (CRUD) for events:
+
+| Metode   | Endepunkt       | Returnerer                         |
+| :------- | :-------------- | :--------------------------------- |
+| `GET`    | `/events`       | En array med alle events           |
+| `POST`   | `/events`       | En nyopprettet event               |
+| `GET`    | `/events/{uid}` | En enkelt event                    |
+| `DELETE` | `/events/{id}`  | `200 OK` hvis event ble slettet.   |
+| `PUT`    | `/events/{id}`  | En event oppdatert etter endringer |
+
+For å få en _head start_ har vi opprettet API-spesifikasjonen på forhånd. Den finner du i mappen `lambda` og heter `swagger.yml`. Denne skal vi importere til API Gateway. Vi gjør det med nettleseren:
+
+1. Logg inn i AWS-konsollen og naviger til API Gateway
+2. Trykk «Create API»
+3. Velg «Import from Swagger or Open API 3»
+4. Kopier innholdet i filen `lambda/swagger.yml` inn i vinudet som dukker opp
+5. Trykk «Import» nederst til høyre
 
 ### Steg 3: Relational Database Serivce (RDS)
 
@@ -118,35 +140,48 @@ Vi oppretter en database i RDS vi kan gi til Lambda Functions
 5. Under «Settings» setter vi navn på instansen, og brukernavn og passord for den. Instansnavnet kan for eksempel være `eventsapp`. Brukernavnet kan godt være det samme. Passordet bør være noe du finner på selv. Husk å notere deg navn, brukernavn og passord slik at du har det til senere. Trykk «Next»
 6. I dette steget får vi en rekke valg for databasen. Vi lar det meste stå som standard. Vi skal først og fremst sette et navn på databasen som skal kjøre på databaseinstansen. Denne kan godt være det samme om instansen, `eventsapp`. Trykk «Create database»
 
-Nå skal vi hente ut URL til databasen.
+#### Hent ut instillinger
+
+Nå skal vi hente ut URL til databasen, slik ta vi kan la koden vår koble seg på den senere:
 
 1. Trykk «Databases» til venstre
 2. Finn den du nettopp lagde, og vent til status er blitt «Available». Når den er det, trykker du på den.
 3. Lagre verdien som står under «Endpoint», slik at vi har den til senere.. Den vil være noe sånt som: `<ditt-database-navn>.cwkzdvvfjrvm.eu-west-1.rds.amazonaws.com`.
 
-#### Hent ut instillinger
-
-#### Koble deg på
-
 ### Steg 4: Lambda Functions
 
-Oppretter lambda functions og legger inn kode via console, eller ved hjelp av CLI
+Lambda er en tjeneste i AWS for å kjøre en mengde kode på forespørsel. Med andre ord kjøres koden når den trigges, for eksempel av API Gateway. Det betyr at vi kan ha en backend, eller en funksjon, for hvert eneste endepunkt. Det gjør videre at vi får en applikasjon hvor de ulike endepunktene har veldig liten kobling mellom hverandre, og kan oppdateres uavhengig av hverandre.
+
+I dette steget skal vi opprette Lambda-funksjoner, ett for hvert endepunkt. Deretter skal vi laste koden vår opp, enten ved hjelp av CLI eller nettleseren.
 
 #### Opprett Lambda-function
 
 1. Åpne eller logg inn i [AWS Management Console](https://eu-west-1.console.aws.amazon.com/console)
-2. Gå til Lambda
-3. Trykk «Create function»
-4. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksemepl `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Choose an exisiting role», og så velger du `service-role/lambda_basic_execution` i dropdownen under.
-5. Trykk «Create function»
+2. Sjekk at du er i AWS-region Ireleand, også kjent som `eu-west-1`. Dette ser du øverst i venstre hjørnet. Hvis du ikke er det allerede, bytter du til `eu-vest-1` Ireland.
+3. Gå til Lambda
+4. Trykk «Create function»
+5. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksemepl `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Choose an exisiting role», og så velger du `service-role/lambda_basic_execution` i dropdownen under.
+6. Trykk «Create function»
+
+#### Bygg Lambda-funksjonene
+
+Lambda-funksjonene ligger i `lambda`-mappen i dette repositoriet, og er skrevet i Java. Lambda trenger at dette er en ferdigbygget `JAR`-fil, eller en `ZIP` av Java-filer.
 
 #### Last opp koden til Lambda-function
 
-Du kan laste opp kode til en Lambda ved hjelp av konsoll eller kommandolinjen.
+Når vi har bygd en JAR-fil for hvert endepunkt, kan vi hver og en opp til en Lambda ved hjelp av konsoll eller kommandolinjen. Gjør det for hvert av endepunktene.
 
 **Med nettleseren:**
 
+1. Åpne eller logg inn i [AWS Management Console](https://eu-west-1.console.aws.amazon.com/console)
+2. Gå til Lambda-tjenensten
+3. Finn funksjonen du opprettet i forrige steg
+4. Trykk «Upload» og last opp en
+
 **Med kommandolinje:**
+
+1. Benytt `aws-vault` til å åpne et shell knyttet til kontoen det skal kjøre på: `aws-vault exec <profilnavn>`
+2. For å laste opp, kjør: `aws lambda update-function-code --function-name=<funksjonsnavn> --zip-file=fileb://<navn på jar> --region eu-west-1`
 
 #### Sett instillingene til database som en miljøvariabler
 
