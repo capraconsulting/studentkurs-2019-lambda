@@ -101,32 +101,6 @@ Når du har en bygg er endelig er alt klart: Vi kan publisere appen! Det gjør v
 
 Når opplasting er ferdig bør du kunne nå applikasjonen på URLen vi lagret i stad.
 
-### Steg 2: API Gateway
-
-API Gateway er en tjeneste i AWS for å lage APIer helt uten programmering, og så kunne koble disse mot andre tjenester i AWS. I vårt tilfelle skal vi lage endepunkter for å opprette, endre, slette og hente ut eventer fra databasen vår. For å gjøre dette må vi:
-
-1. Lage en Swagger/OpenAPI-spesifikasjon, som sier hvordan APIet skal se ut
-2. Importere denne til API Gateway
-3. Knytte endepunktene til andre tjenester i AWS, slik at endepunktene faktisk gjør noe. I vårt tilfelle betyr det at vi skal koble de til Lmabda-funksjoner.
-
-Men først: Hvordan skal APIet se ut? Vi trenger altså Create Read Update Delete (CRUD) for events:
-
-| Metode   | Endepunkt       | Returnerer                         |
-| :------- | :-------------- | :--------------------------------- |
-| `GET`    | `/events`       | En array med alle events           |
-| `POST`   | `/events`       | En nyopprettet event               |
-| `GET`    | `/events/{uid}` | En enkelt event                    |
-| `DELETE` | `/events/{id}`  | `200 OK` hvis event ble slettet.   |
-| `PUT`    | `/events/{id}`  | En event oppdatert etter endringer |
-
-For å få en _head start_ har vi opprettet API-spesifikasjonen på forhånd. Den finner du i mappen `lambda` og heter `swagger.yml`. Denne skal vi importere til API Gateway. Vi gjør det med nettleseren:
-
-1. Logg inn i AWS-konsollen og naviger til API Gateway
-2. Trykk «Create API»
-3. Velg «Import from Swagger or Open API 3»
-4. Kopier innholdet i filen `lambda/swagger.yml` inn i vinudet som dukker opp
-5. Trykk «Import» nederst til høyre
-
 ### Steg 3: Relational Database Serivce (RDS)
 
 Vi oppretter en database i RDS vi kan gi til Lambda Functions
@@ -189,9 +163,44 @@ Når vi har bygd en JAR-fil for hvert endepunkt, kan vi hver og en opp til en La
 2. Legg også til `PG_USER` med verdi `postgres`, og `PG_PASSWORD` med passordet du satte på samme måte.
 3. Trykk «Save» øverst til høyre, og så «Actions» etterfulgt av «Publish new version».
 
+### Steg 4: API Gateway
+
+API Gateway er en tjeneste i AWS for å lage APIer helt uten programmering, og så kunne koble disse mot andre tjenester i AWS. I vårt tilfelle skal vi lage endepunkter for å opprette, endre, slette og hente ut eventer fra databasen vår. For å gjøre dette må vi:
+
+1. Designe endepunktene våre slik at vi vet hvordan de skal se ut
+2. Lage disse i API Gateway
+3. Knytte endepunktene til andre tjenester i AWS, slik at endepunktene faktisk gjør noe. I vårt tilfelle betyr det at vi skal koble de til Lmabda-funksjoner.
+
+Først, steg 1: Hvordan skal APIet se ut? Vi trenger altså Create Read Update Delete (CRUD) for events:
+
+| Metode   | Endepunkt       | Returnerer                         |
+| :------- | :-------------- | :--------------------------------- |
+| `GET`    | `/events`       | En array med alle events           |
+| `POST`   | `/events`       | En nyopprettet event               |
+| `GET`    | `/events/{uid}` | En enkelt event                    |
+| `DELETE` | `/events/{id}`  | `200 OK` hvis event ble slettet.   |
+| `PUT`    | `/events/{id}`  | En event oppdatert etter endringer |
+
+### Lage API i API Gateway
+
+1. Logg inn i AWS-konsollen og naviger til API Gateway
+2. Trykk «Create API»
+
+Når API er importer har vi fått alle endepunktene som dokumentet definerer. Vanligvis kunne man definert dette ved hjelp av API Gateway direkte, men vi har lagt det ved for å gjøre det litt raskere for dere.
+
+#### Deploy API
+
+howto deploy og verifisere at det virker
+
+![Vindu for å deploye API i API Gateway](images/deploy-api.png)
+
 #### Steg 5: Bring it all together
 
 Vi sjekker at alt virker
+
+1. bytte endepunkter i webapp
+2. deploy på nytt
+3. sjekk at det funker
 
 ### Veien videre
 
