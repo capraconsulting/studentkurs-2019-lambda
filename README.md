@@ -220,6 +220,13 @@ $ aws lambda update-function-code --function-name=<funksjonsnavn> --zip-file=fil
 
 <br/>
 
+#### Publiser lambda-funksjonen
+
+Når man gjør endringer kan man lagre, men de trår ikke i kraft før man har publisert.
+
+1. Trykk «Actions»
+2. Trykk «Publish new version», gi en eller annen beskrivelse og trykk «Publish»
+
 ### Steg 4: API Gateway
 
 API Gateway er en tjeneste i AWS for å lage APIer helt uten programmering som kan kobles mot andre tjenester i AWS. I vårt tilfelle skal vi lage endepunkter for å opprette, endre, slette og hente ut eventer fra databasen vår. For å gjøre dette må vi:
