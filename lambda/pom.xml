@@ -13,6 +13,7 @@
     </properties>
 
     <modules>
+        <module>common</module>
         <module>get-all-handler</module>
         <module>get-one-handler</module>
         <module>create-handler</module>
