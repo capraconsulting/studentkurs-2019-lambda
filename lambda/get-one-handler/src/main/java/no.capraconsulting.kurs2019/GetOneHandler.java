@@ -1,6 +1,5 @@
 package no.capraconsulting.kurs2019;
 
-import com.google.gson.Gson;
 import no.capraconsulting.kurs2019.domain.Event;
 import no.capraconsulting.kurs2019.domain.Request;
 import no.capraconsulting.kurs2019.domain.Response;
@@ -20,6 +19,6 @@ public class GetOneHandler extends AbstractRequestHandler {
             body.put("message", "Missing id");
         }
 
-        res.setBody(event != null ? new Gson().toJson(event) : body.toString());
+        res.setBody(event != null ? event : body.toString());
     }
 }

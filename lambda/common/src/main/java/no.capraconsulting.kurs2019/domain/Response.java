@@ -13,7 +13,7 @@ public class Response {
         response.put("statusCode", code);
     }
 
-    public void setBody(String body) {
+    public void setBody(Object body) {
         response.put("body", body);
     }
 }
