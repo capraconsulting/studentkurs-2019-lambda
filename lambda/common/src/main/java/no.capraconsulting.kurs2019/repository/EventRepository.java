@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class EventRepository {
-	private static final String DB_URL = "jdbc:postgresql://TODO:TODO/";
-	private static final String DB_USERNAME = System.getProperty("DB_USERNAME");
-	private static final String DB_PASSWORD = System.getProperty("DB_PASSWORD");
+	private static final String DB_URL = System.getenv("PG_URL");
+	private static final String DB_USERNAME = System.getenv("PG_USERNAME");
+	private static final String DB_PASSWORD = System.getenv("PG_PASSWORD");
 
 	private final List<Event> events = Arrays.asList(
 			new Event(LocalDateTime.now(), "Arbeidersamfunnets plass 1, 0181 Oslo", "Konsert", "Detta blir gøy"),

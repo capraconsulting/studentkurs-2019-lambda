@@ -180,7 +180,7 @@ I dette steget skal vi opprette Lambda-funksjoner, ett for hvert endepunkt. Dere
 
 #### Bygg Lambda-funksjonene
 
-Lambda-funksjonene ligger i `lambda`-mappen i dette repositoriet, og er skrevet i Java. Lambda trenger at dette er en ferdigbygget `JAR`-fil, eller en `ZIP` av Java-filer.
+Lambda-funksjonene ligger i `lambda`-mappen i dette repositoriet, og er skrevet i Java. Lambda trenger at dette er en ferdigbygget `JAR`-fil, eller en `ZIP` av Java-filer. Du bygger alle ved å gå til mappen og skrive `mvn clean install`i terminalen.
 
 <br/>
 
@@ -193,7 +193,8 @@ Når vi har bygd en JAR-fil for hvert endepunkt, kan vi hver og en opp til en La
 1. Åpne eller logg inn i [AWS Management Console](https://eu-west-1.console.aws.amazon.com/console)
 2. Gå til Lambda-tjenensten
 3. Finn funksjonen du opprettet i forrige steg
-4. Trykk «Upload» og last opp en
+4. Trykk «Upload» og velg JAR-fil du ønsker å laste opp. Disse ligger i `target`-mappen innenfor hver funksjon i `lambda`-mappen.
+5. I feltet «Handler» må du oppgi pakkenavn, klassenavn og metodenavn. Pakkenavn er mappenavnet, det vil si `no.capraconsulting.kurs2019`. Klassenavnet finner du i Java-filen til hver lambda, for eksempel i `GetAllHandler.java`. Den siste biten er metodenavnet, som er `handleRequest`. For akkurat det å hente alle events vil Handler da være `no.capraconsulting.kurs2019.GetAllHandler::handleRequest`
 
 **Med kommandolinje:**
 
@@ -269,10 +270,16 @@ Nå som vi har ressurser kan vi knytte metoder til dem, som vi peker mot Lambda-
 
 1. Trykk «Actions» og så «Create method»
 2. Velg HTTP-metode i dropdown-menyen
+3. Du får da mulighet for å konfigurere metoden mot endepunktet. Vi skal sende requests til endepukntet mot en Lambda, så velg « Lambda Function» og søk på funksjonen du vil knytte til endepunktet i boksen for «Lambda Function». Velg den du skal ha, og trykk «OK» i vinduet som dukker opp. Det sørger for at de riktige tillatlesene settes opp.
+4. Når du er ferdig trykker du «Save»
+
+![Endre Method-visning](images/api-gateway-add-lambda.png)
+
+Gjenta dette slik at du får laget alle metodene som trengs for hver ressurs, og knyttet alle disse opp mot riktig lambda-funksjon.
 
 #### Deploy API
 
-howto deploy og verifisere at det virker
+Når man har definert API, kan man deploye det, slik at vi kan nå det fra webapplikasjonen.
 
 ![Vindu for å deploye API i API Gateway](images/deploy-api.png)
 
@@ -288,8 +295,5 @@ Vi sjekker at alt virker
 
 Ting vi kanskje kan lage ekstraoppgaver av:
 
--   Lek med webappen og legg til nye features
+-   Implementer endring av event i webappen (kode er fjernet)
 -   CloudFront for webappen
--   Legg til script i `package.json` for å deploye webappen, tilsvarende for java
--   Bruke developer services for å sette opp automatisk deploy?
--   IAM med roller for sikkerhet
