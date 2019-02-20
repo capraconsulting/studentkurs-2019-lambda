@@ -173,18 +173,23 @@ API Gateway er en tjeneste i AWS for å lage APIer helt uten programmering, og s
 
 Først, steg 1: Hvordan skal APIet se ut? Vi trenger altså Create Read Update Delete (CRUD) for events:
 
-| Metode   | Endepunkt       | Returnerer                         |
-| :------- | :-------------- | :--------------------------------- |
-| `GET`    | `/events`       | En array med alle events           |
-| `POST`   | `/events`       | En nyopprettet event               |
-| `GET`    | `/events/{uid}` | En enkelt event                    |
-| `DELETE` | `/events/{id}`  | `200 OK` hvis event ble slettet.   |
-| `PUT`    | `/events/{id}`  | En event oppdatert etter endringer |
+| Metode   | Endepunkt        | Konsumerer                                                | Returnerer                         |
+| :------- | :--------------- | :-------------------------------------------------------- | :--------------------------------- |
+| `GET`    | `/events`        | n/a                                                       | En array med alle events           |
+| `POST`   | `/events`        | Nytt event objekt                                         | En nyopprettet event               |
+| `GET`    | `/events/{uuid}` | n/a                                                       | En enkelt event                    |
+| `DELETE` | `/events/{uuid}` | n/a                                                       | `200 OK` hvis event ble slettet.   |
+| `PUT`    | `/events/{uuid}` | Event-objekt med endringer som man ønsker at skal lagres. | En event oppdatert etter endringer |
 
 ### Lage API i API Gateway
 
 1. Logg inn i AWS-konsollen og naviger til API Gateway
 2. Trykk «Create API»
+
+Du er nå inne i editoren for å lage API i API Gateway. Her har vi to konsepter: _Resources_, og _Methods_.
+
+1. Lage Resources
+2. Lage Methods
 
 Når API er importer har vi fått alle endepunktene som dokumentet definerer. Vanligvis kunne man definert dette ved hjelp av API Gateway direkte, men vi har lagt det ved for å gjøre det litt raskere for dere.
 
