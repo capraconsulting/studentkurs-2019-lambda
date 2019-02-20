@@ -134,9 +134,7 @@ $ aws s3 cp dist/ s3://<navn på bucket> --acl public-read --recursive
 
 Når opplasting er ferdig bør du kunne nå applikasjonen på URLen vi lagret i stad.
 
-<br/>
-
-### Steg 3: Relational Database Serivce (RDS)
+### Steg 2: Relational Database Serivce (RDS)
 
 Vi oppretter en database i RDS vi kan nå fra Lambda funksjonene.
 
@@ -161,9 +159,7 @@ Nå skal vi hente ut URL til databasen, slik ta vi kan la koden vår koble seg p
 2. Finn databasen du nettopp lagde, og vent til status er blitt «Available». Dette kan ta noen minutter. Når den er det, trykker du på den.
 3. Lagre verdien som står under «Endpoint», slik at vi har den til senere.. Den vil være noe sånt som: `<ditt-database-navn>.cwkzdvvfjrvm.eu-west-1.rds.amazonaws.com`.
 
-<br/>
-
-### Steg 4: Lambda Functions
+### Steg 3: Lambda Functions
 
 Lambda er en tjeneste i AWS for å kjøre kode på forespørsel uten tradisjonelle servere. Med andre ord kjøres koden kun ved behov, for eksempel ved kall fra API Gateway. Det betyr at vi kan ha en backend, eller en funksjon, for hvert eneste endepunkt. Det gjør videre at vi får en applikasjon hvor de ulike endepunktene har veldig liten kobling mellom hverandre, og kan oppdateres uavhengig av hverandre.
 
@@ -269,6 +265,10 @@ Når du er ferdig bør det se noe sånt som dette ut:
 #### Legg til metoder og knytt til Lambda-funksjoner for ditt API i API Gateway
 
 Når API er implementert har vi fått alle endepunktene som dokumentet definerer. Vanligvis kunne man definert dette ved hjelp av API Gateway direkte, men vi har lagt det ved for å gjøre det litt raskere for dere.
+Nå som vi har ressurser kan vi knytte metoder til dem, som vi peker mot Lambda-funksjonene vi lagde tidligere. Det gjør vi slik: For hver ressurs, trykk på den og trykk:
+
+1. Trykk «Actions» og så «Create method»
+2. Velg HTTP-metode i dropdown-menyen
 
 #### Deploy API
 
@@ -288,8 +288,8 @@ Vi sjekker at alt virker
 
 Ting vi kanskje kan lage ekstraoppgaver av:
 
-- Lek med webappen og legg til nye features
-- CloudFront for webappen
-- Legg til script i `package.json` for å deploye webappen, tilsvarende for java
-- Bruke developer services for å sette opp automatisk deploy?
-- IAM med roller for sikkerhet
+-   Lek med webappen og legg til nye features
+-   CloudFront for webappen
+-   Legg til script i `package.json` for å deploye webappen, tilsvarende for java
+-   Bruke developer services for å sette opp automatisk deploy?
+-   IAM med roller for sikkerhet
