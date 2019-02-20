@@ -200,10 +200,11 @@ Du er nå inne i editoren for å lage API i API Gateway. Her har vi to konsepter
 
 ![Actions-menu i API Gateway](images/api-gateway-create-resource.png)
 
-#### Legg til metoder og knytt til Lambda-funksjoner for ditt API i API Gateway
+Når du er ferdig bør det se noe sånt som dette ut:
 
-1. Lage Resources
-2. Lage Methods
+![Resources definert i API Gateway](images/api-gateway-resources.png)
+
+#### Legg til metoder og knytt til Lambda-funksjoner for ditt API i API Gateway
 
 Når API er importer har vi fått alle endepunktene som dokumentet definerer. Vanligvis kunne man definert dette ved hjelp av API Gateway direkte, men vi har lagt det ved for å gjøre det litt raskere for dere.
 
