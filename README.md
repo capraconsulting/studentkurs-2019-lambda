@@ -181,12 +181,26 @@ Først, steg 1: Hvordan skal APIet se ut? Vi trenger altså Create Read Update D
 | `DELETE` | `/events/{uuid}` | n/a                                                       | `200 OK` hvis event ble slettet.   |
 | `PUT`    | `/events/{uuid}` | Event-objekt med endringer som man ønsker at skal lagres. | En event oppdatert etter endringer |
 
-### Lage API i API Gateway
+#### Lage API i API Gateway
 
 1. Logg inn i AWS-konsollen og naviger til API Gateway
 2. Trykk «Create API»
+3. Da skal du se det følgende skjermbildet
+   ![Create API i API Gateway](images/create-api-gateway.png)
+4. Under «API Name» gir du APIet et navn, for eksmepel `eventsapp`.De andre verdiene kan du beholde som de er.
+5. Trykk «Create API»
 
-Du er nå inne i editoren for å lage API i API Gateway. Her har vi to konsepter: _Resources_, og _Methods_.
+#### Lage ressurser til en API i API Gateway
+
+Du er nå inne i editoren for å lage API i API Gateway. Her har vi to konsepter: _Resources_, og _Methods_. En Resource er en ressurs, eller en entitet. I vårt tilfelle er et eksemepl på en slik en ett enkelt event.
+
+1. Trykk på «Actions» og trykk «Create resource»
+2. Du vil da få opp et skjermbilde for å opprette en ressurs. «Resource name» er navnet på ressursen, og er kun for at man skal skjønne hva det er for noe man ser ressursen i editoren for API Gateway. «Resource Path» er endepunktet. Lag ende
+3. Gjenta dette slik at du får en struktur som den beskrevet ovenfor, altså en ressurs `/events` og under der en ressurs `{uuid}`
+
+![Actions-menu i API Gateway](images/api-gateway-create-resource.png)
+
+#### Legg til metoder og knytt til Lambda-funksjoner for ditt API i API Gateway
 
 1. Lage Resources
 2. Lage Methods
