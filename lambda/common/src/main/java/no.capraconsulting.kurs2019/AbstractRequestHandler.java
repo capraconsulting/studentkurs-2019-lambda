@@ -29,6 +29,7 @@ public abstract class AbstractRequestHandler implements RequestStreamHandler {
             System.out.println(response.toString());
             OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
             writer.write(response.toString());
+            writer.close();
         }
     }
 
