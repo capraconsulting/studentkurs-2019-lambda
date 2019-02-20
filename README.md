@@ -195,7 +195,7 @@ Først, steg 1: Hvordan skal APIet se ut? Vi trenger altså Create Read Update D
 Du er nå inne i editoren for å lage API i API Gateway. Her har vi to konsepter: _Resources_, og _Methods_. En Resource er en ressurs, eller en entitet. I vårt tilfelle er et eksemepl på en slik en ett enkelt event.
 
 1. Trykk på «Actions» og trykk «Create resource»
-2. Du vil da få opp et skjermbilde for å opprette en ressurs. «Resource name» er navnet på ressursen, og er kun for at man skal skjønne hva det er for noe man ser ressursen i editoren for API Gateway. «Resource Path» er endepunktet. Lag ende
+2. Du vil da få opp et skjermbilde for å opprette en ressurs. «Resource name» er navnet på ressursen, og er kun for at man skal skjønne hva det er for noe man ser ressursen i editoren for API Gateway. «Resource Path» er endepunktet. Fyll ut begge basert på tabellen som beskriver API ovenfor. Det første du skal opprette er da altså `events`.
 3. Gjenta dette slik at du får en struktur som den beskrevet ovenfor, altså en ressurs `/events` og under der en ressurs `{uuid}`
 
 ![Actions-menu i API Gateway](images/api-gateway-create-resource.png)
