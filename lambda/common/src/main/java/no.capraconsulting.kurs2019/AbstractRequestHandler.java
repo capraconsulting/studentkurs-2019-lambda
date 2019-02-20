@@ -26,6 +26,7 @@ public abstract class AbstractRequestHandler implements RequestStreamHandler {
             response.put("statusCode", 400);
             response.put("exception", e);
         } finally {
+            System.out.println(response.toString());
             OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
             writer.write(response.toString());
         }
