@@ -359,5 +359,6 @@ Dersom dette ikke byr på problemer bør alt fungere som det skal! Gratulerer --
 Ting vi kanskje kan lage ekstraoppgaver av:
 
 -   Implementer endring av event i webappen (kode er fjernet)
+-   Implementere opplasting av bilder: Endeunkt i API Gateway -> Laste opp til S3 -> Gi en URL tilbake som man kan lagre i database
 -   CloudFront for webappen
 -   Ved hjelp av SES og et ekstra felt for e-poster i appen, implementer at man sender ut invitasjoner til brukere per e-post
