@@ -34,9 +34,9 @@ Amazon Web Services tilbyr en rekke tjenester. De har tjenester for å kjøre en
 
 For å kunne bruke AWS trenger man en konto. Man får mye selv med gratis-nivået, slik at man kan komme i gang uten å bekymre seg for at det blir dyrt.
 
-Det finnes flere måter å jobbe med AWS på. Man kan bruke nettleseren, kommandolinjen eller lage egne maler. Sistnevnte gjør at man kan lage infrastruktur med kode. AWS sin tjeneste for dette heter CloudFormation.
+Det finnes flere måter å jobbe med AWS på. Man kan bruke nettleseren, kommandolinjen eller lage egne maler. Sistnevnte gjør at man kan lage infrastruktur med kode. AWS sin tjeneste for dette heter CloudFormation. Akkurat CloudFormation er ikke noe vi skal benytte i dette kurset, men det kan være fint å vite om.
 
-I dette kurset skal vi først sette opp tjenester med nettleseren, i den såkalte konsollen, for så og oppdatere innholdet ved hjelp av AWS sitt CLI (Command Line Interface).
+I dette kurset skal vi først sette opp tjenester med nettleseren, i den såkalte konsollen. Videre kan vi velge å oppdatere tjenester med nettleseren, eller Command-Line Interface (CLI) som AWS tilbyr. Dette er ikke nødvendig, men kan være nyttig.
 
 <br/>
 
@@ -136,7 +136,10 @@ Når opplasting er ferdig bør du kunne nå applikasjonen på URLen vi lagret i 
 
 ### Steg 2: Relational Database Serivce (RDS)
 
-Vi oppretter en database i RDS vi kan nå fra Lambda funksjonene.
+Vi oppretter en database i RDS, slik at vi har et sted å lagre data. Vi skal kunne nå denne fra Lambda funksjonene. Det er da to steg:
+
+1. Opprette databaseinstansen
+2. Hente ut de instillingene vi trenger å gi til Lambda-funksjonene, slik at de kan koble til.
 
 <br/>
 
@@ -297,6 +300,7 @@ Når man har definert API, kan man deploye det, slik at vi kan nå det fra webap
 3. Vi skal nå produksjonsette/deploye/publisere APIet vi har laget, til et nytt miljø. For å gjøre det må vi lage et miljø. Det vil si at du kan ha et miljø for produksjon, og et annet hvor du bare tester ut endepunktene dine. Et miljø i API Gateway kalles et _stage_. Vi har ikke noe _stage_, så vi må opprette dette. Velg «New stage» ved siden av «Stage»
 4. I feltet «Stage name» skal vi gi navn til ditt Stage. Vi skal nok bare ha et i denne omgang, så du kan gjerne kalle det production
 5. Trykk «Deploy» for å lage Stage og produksjonsette til det.
+
 ![Vindu for å deploye API i API Gateway](images/deploy-api.png)
 
 Du vil nå få en del innstillinger for dette staget, blant annet URL til APIet for dette staget. Kopier lenken, slik at vi kan bruke den senere. Den står øverst etter «Invoke URL». Den ser noe sånt ut: `https://<en API ID>.execute-api.<region>.amazonaws.com/<stage name>`
