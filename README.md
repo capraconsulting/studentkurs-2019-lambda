@@ -150,7 +150,7 @@ Vi oppretter en database i RDS, slik at vi har et sted å lagre data. Vi skal ku
 3. Under _Use case_ velger du «Dev/Test» og trykker «Next»
 4. I dette steget velger vi en rekke detaljer om databasen vi skal sette opp. Det viktigste her er «DB instance class» sier noe om hvor stor last instansen vil kunne håndtere, og dermed også kostnandsnivået. Vi trenger ikke mer enn `db.t3.micro`
 5. Under «Settings» setter vi navn på instansen, og brukernavn og passord for den. Instansnavnet kan for eksempel være `eventsapp`. Brukernavnet kan godt være det samme. Passordet bør være noe du finner på selv. Husk å notere deg navn, brukernavn og passord slik at du har det til senere. Trykk «Next»
-6. I dette steget får vi en rekke valg for databasen. Vi lar det meste stå som standard. Vi skal først og fremst sette et navn på databasen som skal kjøre på databaseinstansen. Denne kan godt være det samme om instansen, `eventsapp`. Trykk «Create database»
+6. I dette steget får vi en rekke valg for databasen. Vi lar det meste stå som standard. Vi skal først og fremst sette et navn på databasen som skal kjøre på databaseinstansen. Dette gjøres under feltet "Database name". Navnet kan godt være det samme om instansen, `eventsapp`. Trykk «Create database»
 
 <br/>
 
@@ -173,7 +173,7 @@ I dette steget skal vi opprette Lambda-funksjoner, ett for hvert endepunkt. Dere
 #### Opprett Lambda-function
 
 1. Åpne eller logg inn i [AWS Management Console](https://eu-north-1.console.aws.amazon.com/console)
-2. Sjekk at du er i AWS-region Ireland, også kjent som `eu-north-1`. Dette ser du øverst i venstre hjørnet. Hvis du ikke er det allerede, bytter du til `eu-vest-1` Ireland.
+2. Sjekk at du er i AWS-region Stockholm, også kjent som `eu-north-1`. Dette ser du øverst i venstre hjørnet. Hvis du ikke er det allerede, bytter du til `eu-north-1` Stockholm.
 3. Gå til Lambda
 4. Trykk «Create function»
 5. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksemepl `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Choose an exisiting role», og så velger du `service-role/lambda_basic_execution` i dropdownen under.
