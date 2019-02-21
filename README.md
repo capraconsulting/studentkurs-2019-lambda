@@ -180,6 +180,15 @@ Vi ønsker at å begrense hvem som har tilgang til å koble seg på databasen.
 ![Security Group Rules](images/security-group-rules.png)
 
 <br/>
+#### Sett opp databasemodell
+
+En relasjonsdatabase trenger en schema, altså en modell for hva som skal lagres. Vi må gi dette til databasen vår. For å gjøre det skal vi kjøre en SQL-statement som oppretter denne. For å gjøre det må vi skrive et script, koble oss på databasen og kjøre dette.
+
+Scriptet har vi alt skrevet, du finner det i `db`-mappa. Det heter `setup.sql`. Sjekk at brukernavnet som står der, `eventsapp`, er det samme som oppga som brukernavn da du opprettet databasen. Deretter gjør du følgende:
+
+1. Åpne Pgadmin (hvis du ikke installerte det på forhånd finner du det [her](https://www.pgadmin.org/))
+2. Trykk på «Add connection to a server» øverst til venstre. Du oppgir tilkoblingsdetaljer som du fant i tidligere steg, altså URL til database, samt brukernavn og passord som du satte for databasen din.
+3. Når du har koblet til, høyreklikk på «Databases» og velg «»
 
 ### Steg 3: Lambda Functions
 
@@ -195,7 +204,7 @@ I dette steget skal vi opprette Lambda-funksjoner, ett for hvert endepunkt. Dere
 2. Sjekk at du er i AWS-region Stockholm, også kjent som `eu-north-1`. Dette ser du øverst i venstre hjørnet. Hvis du ikke er det allerede, bytter du til `eu-north-1` Stockholm.
 3. Gå til Lambda
 4. Trykk «Create function»
-5. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksemepl `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Choose an exisiting role», og så velger du `service-role/lambda_basic_execution` i dropdownen under.
+5. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksemepl `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Create a custom role», noe som åpner et nytt vindu. Der kan du bare trykke «Allow» nederst til høyre.
 6. Trykk «Create function»
 
 <br/>
@@ -391,7 +400,7 @@ Dersom dette ikke byr på problemer bør alt fungere som det skal! Gratulerer --
 
 Ting vi kanskje kan lage ekstraoppgaver av:
 
-- Implementer endring av event i webappen (kode er fjernet)
-- Implementere opplasting av bilder: Endeunkt i API Gateway -> Laste opp til S3 -> Gi en URL tilbake som man kan lagre i database
-- CloudFront for webappen
-- Ved hjelp av SES og et ekstra felt for e-poster i appen, implementer at man sender ut invitasjoner til brukere per e-post
+-   Implementer endring av event i webappen (kode er fjernet)
+-   Implementere opplasting av bilder: Endeunkt i API Gateway -> Laste opp til S3 -> Gi en URL tilbake som man kan lagre i database
+-   CloudFront for webappen
+-   Ved hjelp av SES og et ekstra felt for e-poster i appen, implementer at man sender ut invitasjoner til brukere per e-post
