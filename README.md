@@ -77,7 +77,7 @@ Vi kjører i gang!
 
 #### Opprette en bucket i S3
 
-1. Logg inn i [AWS Management Console](https://eu-west-1.console.aws.amazon.com/console)
+1. Logg inn i [AWS Management Console](https://eu-north-1.console.aws.amazon.com/console)
 2. Naviger til S3. Det enkleste er å søke i feltet under «Find services».
 3. Du har nå kommet til S3, som viser deg en liste over de _buckets_ du har. Den er foreløpig tom. En bucket er som en slags mappe du kan konfigurere. For å opprette en slik, trykk «Create bucket»
 4. Gi den et navn som er DNS-compliant, det vil si at det må kunne være et gyldig domene. Navn på _buckets_ må være unikt globalt. Det betyr at ikke alle på kurset kan ha samme navn på sin bucket. Vi foreslår at du gir denne bucketen `<hva du vil kalle din Event-tjeneste>.no`, for eksempel `123events.no`. Trykk «Next».
@@ -111,7 +111,7 @@ Når du har et bygg er alt klart: Vi kan publisere appen! Det gjør vi enten ved
 **Med nettleseren:**
 
 1. Logg inn i/åpne AWS Management Console, gå til S3 og åpne bucketen du ønsker å legge innholdet i.
-2. Trykk «Upload», åpne en filutforsker, marker innholdet i `dist`-mappen i web-appprosjektet og dra innholdet over til AWS-vinduet
+2. Trykk «Upload», åpne en filutforsker, marker innholdet i `dist`-mappen i web-approsjektet og dra innholdet over til AWS-vinduet
 3. Trykk «Next»
 4. Under «Manage public permissions» velger du `Grant public read access to this object(s)`.
 5. Trykk «Next»
@@ -148,7 +148,7 @@ Vi oppretter en database i RDS, slik at vi har et sted å lagre data. Vi skal ku
 1. Gå til RDS og velg «Create database»
 2. I første steg velger vi type database. I dette kurset velger vi Postgres, så velg dette og trykk «Next»
 3. Under _Use case_ velger du «Dev/Test» og trykker «Next»
-4. I dette steget velger vi en rekke detaljer om databasen vi skal sette opp. Det viktigste her er «DB instance class» sier noe om hvor stor last instansen vil kunne håndtere, og dermed også kostnandsnivået. Vi trenger ikke mer enn `db.t2.micro`
+4. I dette steget velger vi en rekke detaljer om databasen vi skal sette opp. Det viktigste her er «DB instance class» sier noe om hvor stor last instansen vil kunne håndtere, og dermed også kostnandsnivået. Vi trenger ikke mer enn `db.t3.micro`
 5. Under «Settings» setter vi navn på instansen, og brukernavn og passord for den. Instansnavnet kan for eksempel være `eventsapp`. Brukernavnet kan godt være det samme. Passordet bør være noe du finner på selv. Husk å notere deg navn, brukernavn og passord slik at du har det til senere. Trykk «Next»
 6. I dette steget får vi en rekke valg for databasen. Vi lar det meste stå som standard. Vi skal først og fremst sette et navn på databasen som skal kjøre på databaseinstansen. Denne kan godt være det samme om instansen, `eventsapp`. Trykk «Create database»
 
@@ -160,7 +160,7 @@ Nå skal vi hente ut URL til databasen, slik ta vi kan la koden vår koble seg p
 
 1. Trykk «Databases» til venstre
 2. Finn databasen du nettopp lagde, og vent til status er blitt «Available». Dette kan ta noen minutter. Når den er det, trykker du på den.
-3. Lagre verdien som står under «Endpoint», slik at vi har den til senere.. Den vil være noe sånt som: `<ditt-database-navn>.cwkzdvvfjrvm.eu-west-1.rds.amazonaws.com`.
+3. Lagre verdien som står under «Endpoint», slik at vi har den til senere.. Den vil være noe sånt som: `<ditt-database-navn>.cwkzdvvfjrvm.eu-north-1.rds.amazonaws.com`.
 
 ### Steg 3: Lambda Functions
 
@@ -172,8 +172,8 @@ I dette steget skal vi opprette Lambda-funksjoner, ett for hvert endepunkt. Dere
 
 #### Opprett Lambda-function
 
-1. Åpne eller logg inn i [AWS Management Console](https://eu-west-1.console.aws.amazon.com/console)
-2. Sjekk at du er i AWS-region Ireland, også kjent som `eu-west-1`. Dette ser du øverst i venstre hjørnet. Hvis du ikke er det allerede, bytter du til `eu-vest-1` Ireland.
+1. Åpne eller logg inn i [AWS Management Console](https://eu-north-1.console.aws.amazon.com/console)
+2. Sjekk at du er i AWS-region Ireland, også kjent som `eu-north-1`. Dette ser du øverst i venstre hjørnet. Hvis du ikke er det allerede, bytter du til `eu-vest-1` Ireland.
 3. Gå til Lambda
 4. Trykk «Create function»
 5. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksemepl `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Choose an exisiting role», og så velger du `service-role/lambda_basic_execution` i dropdownen under.
@@ -193,7 +193,7 @@ Når vi har bygd en JAR-fil for hvert endepunkt, kan vi hver og en opp til en La
 
 **Med nettleseren:**
 
-1. Åpne eller logg inn i [AWS Management Console](https://eu-west-1.console.aws.amazon.com/console)
+1. Åpne eller logg inn i [AWS Management Console](https://eu-north-1.console.aws.amazon.com/console)
 2. Gå til Lambda-tjenensten
 3. Finn funksjonen du opprettet i forrige steg
 4. Trykk «Upload» og velg JAR-fil du ønsker å laste opp. Disse ligger i `target`-mappen innenfor hver funksjon i `lambda`-mappen.
@@ -210,7 +210,7 @@ $ aws-vault exec <profilnavn>
 2. For å laste opp, kjør:
 
 ```
-$ aws lambda update-function-code --function-name=<funksjonsnavn> --zip-file=fileb://<navn på jar> --region eu-west-1
+$ aws lambda update-function-code --function-name=<funksjonsnavn> --zip-file=fileb://<navn på jar> --region eu-north-1
 ```
 
 <br/>
@@ -358,7 +358,7 @@ Dersom dette ikke byr på problemer bør alt fungere som det skal! Gratulerer --
 
 Ting vi kanskje kan lage ekstraoppgaver av:
 
--   Implementer endring av event i webappen (kode er fjernet)
--   Implementere opplasting av bilder: Endeunkt i API Gateway -> Laste opp til S3 -> Gi en URL tilbake som man kan lagre i database
--   CloudFront for webappen
--   Ved hjelp av SES og et ekstra felt for e-poster i appen, implementer at man sender ut invitasjoner til brukere per e-post
+- Implementer endring av event i webappen (kode er fjernet)
+- Implementere opplasting av bilder: Endeunkt i API Gateway -> Laste opp til S3 -> Gi en URL tilbake som man kan lagre i database
+- CloudFront for webappen
+- Ved hjelp av SES og et ekstra felt for e-poster i appen, implementer at man sender ut invitasjoner til brukere per e-post
