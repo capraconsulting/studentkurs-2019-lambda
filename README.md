@@ -256,9 +256,13 @@ Først, steg 1: Hvordan skal APIet se ut? Vi trenger et Create Read Update Delet
 4. Under «API Name» gir du APIet et navn, for eksmepel `eventsapp`.De andre verdiene kan du beholde som de er.
 5. Trykk «Create API»
 
+Du har nå opprettet et API vi kan legge til ressurser i, og knytte metoder til disse ressursene.
+
 #### Lage ressurser til en API i API Gateway
 
-Du er nå inne i editoren for å lage API i API Gateway. Her har vi to konsepter: _Resources_, og _Methods_. En Resource er en ressurs, eller en entitet. I vårt tilfelle er et eksemepl på en slik en ett enkelt event.
+Når man har opprettet et API, havner man automatisk i editoren for å lage API i API Gateway. Hvis du ikke har gjort det, gå til API Gateway og velg APIet du lagde.
+
+I APi Gateway har vi to konsepter: _Resources_, og _Methods_. En Resource er en ressurs, eller en entitet. I vårt tilfelle er et eksemepl på en slik en ett enkelt event. Vi må opprette ressurser i APIet vårt. Hver ressurs vil også representere et endepunkt. Gjør følgende for å lage en ressurs:
 
 1. Trykk på «Actions» og trykk «Create resource»
 2. Du vil da få opp et skjermbilde for å opprette en ressurs. «Resource name» er navnet på ressursen, og er kun for at man skal skjønne hva det er for noe man ser ressursen i editoren for API Gateway. «Resource Path» er endepunktet. Fyll ut begge basert på tabellen som beskriver API ovenfor. Det første du skal opprette er da altså `events`.
@@ -282,13 +286,22 @@ Nå som vi har ressurser kan vi knytte metoder til dem, som vi peker mot Lambda-
 
 ![Endre Method-visning](images/api-gateway-add-lambda.png)
 
-Gjenta dette slik at du får laget alle metodene som trengs for hver ressurs, og knyttet alle disse opp mot riktig lambda-funksjon.
+Gjenta dette slik at du får laget alle metodene som trengs for hver ressurs, og knyttet alle disse opp mot riktig Lambda-funksjon.
 
 #### Deploy API
 
 Når man har definert API, kan man deploye det, slik at vi kan nå det fra webapplikasjonen.
 
+1. Om du ikke er det allerede, gå til API Gateway og velg APIet du lagde tidligere
+2. Velg «Actions» og så «Deploy API»
+3. Vi skal nå produksjonsette/deploye/publisere APIet vi har laget, til et nytt miljø. For å gjøre det må vi lage et miljø. Det vil si at du kan ha et miljø for produksjon, og et annet hvor du bare tester ut endepunktene dine. Et miljø i API Gateway kalles et _stage_. Vi har ikke noe _stage_, så vi må opprette dette. Velg «New stage» ved siden av «Stage»
+4. I feltet «Stage name» skal vi gi navn til ditt Stage. Vi skal nok bare ha et i denne omgang, så du kan gjerne kalle det production
+5. Trykk «Deploy» for å lage Stage og produksjonsette til det.
 ![Vindu for å deploye API i API Gateway](images/deploy-api.png)
+
+Du vil nå få en del innstillinger for dette staget, blant annet URL til APIet for dette staget. Kopier lenken, slik at vi kan bruke den senere. Den står øverst etter «Invoke URL». Den ser noe sånt ut: `https://<en API ID>.execute-api.<region>.amazonaws.com/<stage name>`
+
+Hvis du senere vil produksjonsette endringer i ditt API, går trykker du igjen «Actions» og så «Deploy API». Da velger du det Stage du ønsker å produksjonsette til, og trykker «Deploy»
 
 #### Steg 5: Bring it all together
 
