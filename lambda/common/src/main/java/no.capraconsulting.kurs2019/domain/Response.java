@@ -1,6 +1,7 @@
 package no.capraconsulting.kurs2019.domain;
 
 import org.json.simple.JSONObject;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -19,7 +20,7 @@ public class Response {
     public void send(int code, Object body) throws IOException {
         response.put("statusCode", code);
         if (body != null) {
-            response.put("body", body.toString());
+            response.put("body", new Gson().toJsonTree(body));
         }
 
         OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
