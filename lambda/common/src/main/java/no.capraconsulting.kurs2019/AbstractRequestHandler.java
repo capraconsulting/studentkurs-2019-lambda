@@ -11,8 +11,6 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 
 public abstract class AbstractRequestHandler implements RequestStreamHandler {
     final EventRepository eventRepository = new EventRepository();
@@ -21,17 +19,12 @@ public abstract class AbstractRequestHandler implements RequestStreamHandler {
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
         JSONObject response = new JSONObject();
         try {
-            handleRequest(new Request(inputStream), new Response(response));
+            handleRequest(new Request(inputStream), new Response(response, outputStream));
         } catch (ParseException e) {
             response.put("statusCode", 400);
             response.put("exception", e);
-        } finally {
-            System.out.println(response.toString());
-            OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
-            writer.write(response.toString());
-            writer.close();
         }
     }
 
-    public abstract void handleRequest(Request req, Response res);
+    public abstract void handleRequest(Request req, Response res) throws IOException;
 }

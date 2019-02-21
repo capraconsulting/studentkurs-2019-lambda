@@ -5,9 +5,12 @@ import no.capraconsulting.kurs2019.domain.Request;
 import no.capraconsulting.kurs2019.domain.Response;
 import org.json.simple.JSONObject;
 
+import java.io.IOException;
+
 public class UpdateHandler extends AbstractRequestHandler {
     @Override
-    public void handleRequest(Request req, Response res) {
+    public void handleRequest(Request req, Response res) throws IOException {
+        int status;
         JSONObject body = new JSONObject();
 
         if (req.getBody() != null) {
@@ -19,17 +22,17 @@ public class UpdateHandler extends AbstractRequestHandler {
             if (rawId != null) {
                 long id = Long.parseLong(rawId);
                 updated = eventRepository.update(id, event);
-                res.setStatus(updated ? 200 : 400);
+                status = updated ? 200 : 400;
                 body.put("message", updated ? "Updated Event" : "Could not update event");
             } else {
-                res.setStatus(400);
+                status = 400;
                 body.put("message", "Missing id");
             }
         } else {
-            res.setStatus(400);
+            status = 400;
             body.put("message", "Missing event");
         }
 
-        res.setBody(body.toString());
+        res.send(status, body.toString());
     }
 }
