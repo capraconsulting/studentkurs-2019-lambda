@@ -287,7 +287,7 @@ Nå som vi har ressurser kan vi knytte metoder til dem, som vi peker mot Lambda-
 3. Du får da mulighet for å konfigurere metoden mot endepunktet. Vi skal sende requests til endepukntet mot en Lambda, så velg « Lambda Function» og søk på funksjonen du vil knytte til endepunktet i boksen for «Lambda Function». Velg den du skal ha, og trykk «OK» i vinduet som dukker opp. Det sørger for at de riktige tillatlesene settes opp.
 4. Når du er ferdig trykker du «Save»
 
-![Endre Method-visning](images/api-gateway-add-lambda.png)
+![Endre Method-visning i AWS-console](images/api-gateway-add-lambda.png)
 
 Gjenta dette slik at du får laget alle metodene som trengs for hver ressurs, og knyttet alle disse opp mot riktig Lambda-funksjon.
 
@@ -307,17 +307,37 @@ Du vil nå få en del innstillinger for dette staget, blant annet URL til APIet 
 
 Hvis du senere vil produksjonsette endringer i ditt API, går trykker du igjen «Actions» og så «Deploy API». Da velger du det Stage du ønsker å produksjonsette til, og trykker «Deploy»
 
-#### Steg 5: Bring it all together
+### Steg 5: Bring it all together
 
-Vi sjekker at alt virker
+I dette steget skal vi se at applikasjonen virker. Det gjør vi ved å verifisere at vi kan lagre events i webappen, og gå tilbake senere og finne de samme eventene.
 
-1. bytte endepunkter i webapp
-2. deploy på nytt
-3. sjekk at det funker
+Det som må gjøres er:
 
-### Veien videre
+1. Bytte endepunkter i webapplikasjonen slik at den går til din API Gateway
+2. Bygge og produksjonsette webapplikasjonen i den S3-bucketen vi opprettet, slik at den er produksjonsatt med nye endepunkt
+3. Verifisere at alt fungerer ved å teste applikasjonen
+
+#### Endre endepunkt i webappen
+
+@TODO hvor og hvordan gjør man endringene
+
+#### Deploy av webapp med endringer
+
+Når du har lagret endringene, må du bygge på nytt slik vi gjorde i steg 1. Det vil si, gå til webappen, kjør `npm run build` og se at du har en `dist`-mappe. Deretter laster du opp denne slik du vi gjorde i steg 1, under «Publiser applikasjonen» -- enten med nettleser eller med terminalen.
+
+#### Verifiser at applikasjonen virker
+
+Nå skal vi ha en webapplikasjon som lagrer data i en database. Lambda-funksjoner står for selve lagringsoperasjonen, og API Gateway står for APIet som webapplikasjonen snakker med. For å verifisere dette kan vi for eksmepel gjøre følgende:
+
+1. Åpne webapplikasjonen og opprette et event
+2. Åpne webapplikasjonen fra en annen datamaskin/nettleservindu og se at det opprettede eventet dukker opp
+
+Dersom dette ikke byr på problemer bør alt fungere som det skal! Gratulerer -- du har satt opp en webapplikasjon og backend i AWS, ved bruk av Amazons tjenester.
+
+### Veien videre / Ekstraoppgaver
 
 Ting vi kanskje kan lage ekstraoppgaver av:
 
 -   Implementer endring av event i webappen (kode er fjernet)
 -   CloudFront for webappen
+-   Ved hjelp av SES og et ekstra felt for e-poster i appen, implementer at man sender ut invitasjoner til brukere per e-post
