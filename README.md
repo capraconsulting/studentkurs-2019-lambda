@@ -1,6 +1,6 @@
 # Studentkurs 2019
 
-I dette kurset skal vi sette opp en web-applikasjon med lagring til database med Amazon Web Services. Webapplikasjonen er en enkel sak for å opprette, endre, slette og se på arrangementer. Den er skrevet i TypeScript med React.
+I dette kurset skal vi sette opp en web-applikasjon med lagring til database med Amazon Web Services. Web-applikasjonen er en enkel sak for å opprette, endre, slette og se på arrangementer. Den er skrevet i TypeScript med React.
 
 <br/>
 
@@ -261,6 +261,8 @@ Først, steg 1: Hvordan skal APIet se ut? Vi trenger et Create Read Update Delet
 
 Du har nå opprettet et API vi kan legge til ressurser i, og knytte metoder til disse ressursene.
 
+<br/>
+
 #### Lage ressurser til en API i API Gateway
 
 Når man har opprettet et API, havner man automatisk i editoren for å lage API i API Gateway. Hvis du ikke har gjort det, gå til API Gateway og velg APIet du lagde.
@@ -277,6 +279,8 @@ Når du er ferdig bør det se noe sånt som dette ut:
 
 ![Resources definert i API Gateway](images/api-gateway-resources.png)
 
+<br/>
+
 #### Legg til metoder og knytt til Lambda-funksjoner for ditt API i API Gateway
 
 Når API er implementert har vi fått alle endepunktene som dokumentet definerer. Vanligvis kunne man definert dette ved hjelp av API Gateway direkte, men vi har lagt det ved for å gjøre det litt raskere for dere.
@@ -291,14 +295,16 @@ Nå som vi har ressurser kan vi knytte metoder til dem, som vi peker mot Lambda-
 
 Gjenta dette slik at du får laget alle metodene som trengs for hver ressurs, og knyttet alle disse opp mot riktig Lambda-funksjon.
 
+<br/>
+
 #### Deploy API
 
-Når man har definert API, kan man deploye det, slik at vi kan nå det fra webapplikasjonen.
+Når man har definert API, kan man deploye det, slik at vi kan nå det fra web-applikasjonen.
 
 1. Om du ikke er det allerede, gå til API Gateway og velg APIet du lagde tidligere
 2. Velg «Actions» og så «Deploy API»
-3. Vi skal nå produksjonsette/deploye/publisere APIet vi har laget, til et nytt miljø. For å gjøre det må vi lage et miljø. Det vil si at du kan ha et miljø for produksjon, og et annet hvor du bare tester ut endepunktene dine. Et miljø i API Gateway kalles et _stage_. Vi har ikke noe _stage_, så vi må opprette dette. Velg «New stage» ved siden av «Stage»
-4. I feltet «Stage name» skal vi gi navn til ditt Stage. Vi skal nok bare ha et i denne omgang, så du kan gjerne kalle det production
+3. Vi skal nå produksjonsette/deploye/publisere APIet vi har laget til et nytt miljø. For å gjøre det må vi lage et miljø. Det vil si at du kan ha et miljø for produksjon, og et annet hvor du bare tester ut endepunktene dine. Et miljø i API Gateway kalles et _stage_. Vi har ikke noe _stage_, så vi må opprette dette. Velg «New stage» ved siden av «Stage»
+4. I feltet «Stage name» skal vi gi navn til ditt Stage. Vi skal nok bare ha et i denne omgang, så du kan gjerne kalle det production. Vanlige navn er _dev_, _test_, _qa_ eller _prod_.
 5. Trykk «Deploy» for å lage Stage og produksjonsette til det.
 
 ![Vindu for å deploye API i API Gateway](images/deploy-api.png)
@@ -307,32 +313,46 @@ Du vil nå få en del innstillinger for dette staget, blant annet URL til APIet 
 
 Hvis du senere vil produksjonsette endringer i ditt API, går trykker du igjen «Actions» og så «Deploy API». Da velger du det Stage du ønsker å produksjonsette til, og trykker «Deploy»
 
+<br/>
+
 ### Steg 5: Bring it all together
 
 I dette steget skal vi se at applikasjonen virker. Det gjør vi ved å verifisere at vi kan lagre events i webappen, og gå tilbake senere og finne de samme eventene.
 
 Det som må gjøres er:
 
-1. Bytte endepunkter i webapplikasjonen slik at den går til din API Gateway
-2. Bygge og produksjonsette webapplikasjonen i den S3-bucketen vi opprettet, slik at den er produksjonsatt med nye endepunkt
+1. Bytte endepunkter i web-applikasjonen slik at den går til din API Gateway
+2. Bygge og produksjonsette web-applikasjonen i den S3-bucketen vi opprettet, slik at den er produksjonsatt med nye endepunkt
 3. Verifisere at alt fungerer ved å teste applikasjonen
+
+<br/>
 
 #### Endre endepunkt i webappen
 
 @TODO hvor og hvordan gjør man endringene
 
+<br/>
+
 #### Deploy av webapp med endringer
 
-Når du har lagret endringene, må du bygge på nytt slik vi gjorde i steg 1. Det vil si, gå til webappen, kjør `npm run build` og se at du har en `dist`-mappe. Deretter laster du opp denne slik du vi gjorde i steg 1, under «Publiser applikasjonen» -- enten med nettleser eller med terminalen.
+Når du har lagret endringene, må du bygge på nytt slik vi gjorde i steg 1. Det vil si, gå til webappen, kjør bygg-kommandoen (se nedenfor) og se at du har en `dist`-mappe. Deretter laster du opp denne slik du vi gjorde i steg 1, under «Publiser applikasjonen» -- enten med nettleser eller med terminalen.
+
+```
+$ npm run build
+```
+
+<br/>
 
 #### Verifiser at applikasjonen virker
 
-Nå skal vi ha en webapplikasjon som lagrer data i en database. Lambda-funksjoner står for selve lagringsoperasjonen, og API Gateway står for APIet som webapplikasjonen snakker med. For å verifisere dette kan vi for eksmepel gjøre følgende:
+Nå skal vi ha en web-applikasjon som lagrer data i en database. Lambda-funksjoner står for selve lagringsoperasjonen, og API Gateway står for APIet som web-applikasjonen snakker med. For å verifisere dette kan vi for eksempel gjøre følgende:
 
-1. Åpne webapplikasjonen og opprette et event
-2. Åpne webapplikasjonen fra en annen datamaskin/nettleservindu og se at det opprettede eventet dukker opp
+1. Åpne web-applikasjonen og opprette et event
+2. Åpne web-applikasjonen fra en annen datamaskin/nettleservindu og se at det opprettede eventet dukker opp
 
-Dersom dette ikke byr på problemer bør alt fungere som det skal! Gratulerer -- du har satt opp en webapplikasjon og backend i AWS, ved bruk av Amazons tjenester.
+Dersom dette ikke byr på problemer bør alt fungere som det skal! Gratulerer -- du har satt opp en web-applikasjon og backend i AWS.
+
+<br/>
 
 ### Veien videre / Ekstraoppgaver
 
