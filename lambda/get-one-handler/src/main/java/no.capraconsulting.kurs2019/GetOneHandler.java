@@ -10,7 +10,6 @@ import java.io.IOException;
 public class GetOneHandler extends AbstractRequestHandler {
     @Override
     public void handleRequest(Request req, Response res) throws IOException {
-        int status;
         JSONObject body = new JSONObject();
 
         Event event = null;
@@ -18,12 +17,10 @@ public class GetOneHandler extends AbstractRequestHandler {
         if (rawId != null) {
             long id = Long.parseLong(rawId);
             event = eventRepository.getById(id);
-            status = 200;
         } else {
-            status = 400;
             body.put("message", "Missing id");
         }
 
-        res.send(status, event != null ? event : body.toString());
+        res.send(event != null ? event : body);
     }
 }

@@ -17,12 +17,13 @@ public abstract class AbstractRequestHandler implements RequestStreamHandler {
 
     @Override
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
-        JSONObject response = new JSONObject();
+        Response response = new Response(outputStream);
         try {
-            handleRequest(new Request(inputStream), new Response(response, outputStream));
+            handleRequest(new Request(inputStream), response);
         } catch (ParseException e) {
-            response.put("statusCode", 400);
-            response.put("exception", e);
+            JSONObject body = new JSONObject();
+            body.put("exception", e);
+            response.send(body);
         }
     }
 

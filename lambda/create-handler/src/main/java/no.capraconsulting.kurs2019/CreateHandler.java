@@ -10,18 +10,15 @@ import java.io.IOException;
 public class CreateHandler extends AbstractRequestHandler {
     @Override
     public void handleRequest(Request req, Response res) throws IOException {
-        int status;
         JSONObject body = new JSONObject();
 
         if (req.getBody() != null) {
             boolean result = eventRepository.create(new Event(req.getBody()));
-            status = result ? 204 : 500;
-            body.put("message", result ? "Event created" : "Internal server error");
+            body.put("message", result ? "Event created" : "Could not create event");
         } else {
-            status = 400;
-            body.put("message", "Missing body");
+            body.put("message", "Missing request body");
         }
 
-        res.send(status, body.toString());
+        res.send(body.toString());
     }
 }

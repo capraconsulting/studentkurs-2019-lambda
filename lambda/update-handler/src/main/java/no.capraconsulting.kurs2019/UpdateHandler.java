@@ -10,7 +10,6 @@ import java.io.IOException;
 public class UpdateHandler extends AbstractRequestHandler {
     @Override
     public void handleRequest(Request req, Response res) throws IOException {
-        int status;
         JSONObject body = new JSONObject();
 
         if (req.getBody() != null) {
@@ -22,17 +21,14 @@ public class UpdateHandler extends AbstractRequestHandler {
             if (rawId != null) {
                 long id = Long.parseLong(rawId);
                 updated = eventRepository.update(id, event);
-                status = updated ? 200 : 400;
                 body.put("message", updated ? "Updated Event" : "Could not update event");
             } else {
-                status = 400;
                 body.put("message", "Missing id");
             }
         } else {
-            status = 400;
             body.put("message", "Missing event");
         }
 
-        res.send(status, body.toString());
+        res.send(body);
     }
 }
