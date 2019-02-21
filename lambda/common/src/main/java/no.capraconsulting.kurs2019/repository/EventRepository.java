@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class EventRepository {
-	private static final String DB_URL = System.getenv("PG_URL");
+	private static final String DB_URL = "jdbc:postgresql://" + System.getenv("PG_URL") + "/";
 	private static final String DB_USERNAME = System.getenv("PG_USERNAME");
 	private static final String DB_PASSWORD = System.getenv("PG_PASSWORD");
 
@@ -43,6 +43,8 @@ public class EventRepository {
 	}
 
 	private ResultSet performQuery(String query, String... args) throws SQLException {
+		Driver driver = new org.postgresql.Driver();
+		DriverManager.registerDriver(driver);
 		Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 		PreparedStatement statement = connection.prepareStatement(query, args);
 		return statement.executeQuery();
