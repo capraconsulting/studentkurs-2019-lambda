@@ -143,7 +143,7 @@ Vi oppretter en database i RDS, slik at vi har et sted å lagre data. Vi skal ku
 1. Opprette databaseinstansen
 2. Hente ut de instillingene vi trenger å gi til Lambda-funksjonene, slik at de kan koble til.
 3. Konfigurere sikkerhetsinstillinger for at ikke hvem som helst skal kunne koble seg på databasen vår
-4. Koble oss på databaseinstansen og opprette database og tilhørende modeller, slik at applikasjonen har noe å lese og skrive fra/til der.
+4. Koble oss på databaseinstansen og opprette database og tilhørende modeller, slik at applikasjonen har noe å lese og skrive fra/til der
 
 <br/>
 
