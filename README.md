@@ -134,6 +134,8 @@ $ aws s3 cp dist/ s3://<navn på bucket> --acl public-read --recursive
 
 Når opplasting er ferdig bør du kunne nå applikasjonen på URLen vi lagret i stad.
 
+<br/>
+
 ### Steg 2: Relational Database Serivce (RDS)
 
 Vi oppretter en database i RDS, slik at vi har et sted å lagre data. Vi skal kunne nå denne fra Lambda funksjonene. Det er da to steg:
@@ -161,6 +163,23 @@ Nå skal vi hente ut URL til databasen, slik ta vi kan la koden vår koble seg p
 1. Trykk «Databases» til venstre
 2. Finn databasen du nettopp lagde, og vent til status er blitt «Available». Dette kan ta noen minutter. Når den er det, trykker du på den.
 3. Lagre verdien som står under «Endpoint», slik at vi har den til senere.. Den vil være noe sånt som: `<ditt-database-navn>.cwkzdvvfjrvm.eu-north-1.rds.amazonaws.com`.
+
+<br/>
+
+#### Opprett regler for tilgang til database
+
+Vi ønsker at å begrense hvem som har tilgang til å koble seg på databasen.
+
+1. Velg "Services" helt øverst og deretter "EC2" under "Compute"-kategorien.
+2. Under "Network & Security" i fanen til venstre trykker du på "Security Groups"
+3. Trykk på Security Group-en som har `rds-launch-wizard` som "Group Name"
+4. Velg fanen "Inbound". Du ser nå en oversikt over regler for innkommende trafikk til denne sikkerhetsgruppen. Trykk "Edit".
+5. Legg til en ny regel ("Add Rule") og fyll den ut med `Type: PostgreSQL` og `Source: Custom`. I input-feltet kan du begynne å skrive "sg" og du vil da få opp en liste med sikkerhetsgrupper. Velg ID-en til `rds-launch-wizard`. Dette står som "Group ID" i listen over Security Groups.
+6. Det skal da se ca slik ut:
+
+![Security Group Rules](images/security-group-rules.png)
+
+<br/>
 
 ### Steg 3: Lambda Functions
 
@@ -217,9 +236,21 @@ $ aws lambda update-function-code --function-name=<funksjonsnavn> --zip-file=fil
 
 #### Sett instillingene til database som en miljøvariabler
 
-1. Under «Environment variables» legger du til `PG_URL` med verdien du hentet ut i slutten av steg 3, altså URL til Postgres-databasen.
-2. Legg også til `PG_USER` med verdi `postgres`, og `PG_PASSWORD` med passordet du satte på samme måte.
-3. Trykk «Save» øverst til høyre, og så «Actions» etterfulgt av «Publish new version».
+1. Under «Environment variables» legger du til følgende miljøvariabler. `PG_URL` er verdien du hentet ut i slutten av steg 3, altså URL til Postgres-databasen.
+2. Trykk «Save» øverst til høyre, og så «Actions» etterfulgt av «Publish new version».
+
+![Lambda Environment variables](images/lambda-environment-variables.png)
+
+<br/>
+
+#### Gi Lambda-funksjonen tilgang til databasen
+
+1. Legg lambdaen i samme VPC (Virtual Private Network) som databasen. Dette gjøres ved å scrolle ned til "Network" og velge "Virtual Private Cloud (VPC)". Fra nedtrekksmenyen bør du finne en VPC som heter noe slikt som `Default vpc-ac79...`. Velg denne.
+2. Når lambdaen er tilordnet et VPC må man også velge minst 2 subnet. Dette gjøres under "Network" og "Subnets". Velg minst 2 av subnettene fra nedtrekksmenyen. Dette gjør at lambda-funksjonen din kjører i minst 2 Availabiliy Zones og blir dermed ikke påvirket dersom et av datasenterene til AWS får problemer.
+3. Velg en "Security group" for lambda-funksjonen din. Dette er en slags gruppering av brannur-regler og portåpninger. For enkelhets skyld velger vi her den samme "Security group"-en som databasen kjører i, hvor vi tidligere la til en "Inbound rule". Velg derfor den som har navn på dette formatet `sg-0f6f... (rds-launch-wizard)`.
+4. Det bør nå se ut ca. slik som dette:
+
+![Lambda network settings](images/lambda-network-settings.png)
 
 <br/>
 
@@ -229,6 +260,8 @@ Når man gjør endringer kan man lagre, men de trår ikke i kraft før man har p
 
 1. Trykk «Actions»
 2. Trykk «Publish new version», gi en eller annen beskrivelse og trykk «Publish»
+
+<br/>
 
 ### Steg 4: API Gateway
 
