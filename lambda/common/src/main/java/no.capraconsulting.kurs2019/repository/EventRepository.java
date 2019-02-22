@@ -15,7 +15,7 @@ public class EventRepository {
 	private static final String DB_URL = "jdbc:postgresql://" + System.getenv("PG_URL");
 	private static final String DB_PORT = System.getenv("PG_PORT");
 	private static final String DB_NAME = System.getenv("PG_NAME");
-	private static final String DB_USERNAME = System.getenv("PG_USERNAME");
+	private static final String DB_USERNAME = System.getenv("PG_USER");
 	private static final String DB_PASSWORD = System.getenv("PG_PASSWORD");
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EventRepository.class);
