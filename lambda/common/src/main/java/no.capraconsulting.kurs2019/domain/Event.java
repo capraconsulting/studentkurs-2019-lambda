@@ -1,9 +1,7 @@
 package no.capraconsulting.kurs2019.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.gson.Gson;
 
-import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Event {

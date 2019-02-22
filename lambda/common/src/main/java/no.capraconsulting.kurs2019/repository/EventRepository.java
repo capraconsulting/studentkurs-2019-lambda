@@ -5,9 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -28,7 +26,7 @@ public class EventRepository {
 	public List<Event> getAll() {
 		LOGGER.info("Executing getAll");
 		try {
-			ResultSet rs = performQuery("SELECT * FROM Event");
+			ResultSet rs = performQuery("SELECT * FROM events");
 			List<Event> events = new ArrayList<>();
 			while (rs.next()) {
 				events.add(parseResultSet(rs));
@@ -38,7 +36,7 @@ public class EventRepository {
 		} catch (SQLException e) {
 			LOGGER.error("Executed getAll - Failure [message={}]", e.getMessage());
 			e.printStackTrace();
-			return new ArrayList<>();
+			return null;
 		}
 	}
 
@@ -54,7 +52,7 @@ public class EventRepository {
 		LOGGER.info("Executing getById [id={}]", id);
 		Supplier<RuntimeException> exceptionSupplier = () -> new RuntimeException("Event with id " + id + " not found");
 		try {
-			ResultSet rs = performQuery("SELECT * FROM Event e WHERE e.id = ?", String.valueOf(id));
+			ResultSet rs = performQuery("SELECT * FROM events WHERE id = ?", String.valueOf(id));
 			if (rs.next()) {
 				LOGGER.info("Executed getById - Success [id={}]", id);
 				return parseResultSet(rs);
@@ -64,7 +62,7 @@ public class EventRepository {
 		} catch (SQLException e) {
 			LOGGER.error("Executed getById - Failure [id={}, message={}]", id, e.getMessage());
 			e.printStackTrace();
-			return new Event();
+			return null;
 		}
 	}
 
@@ -72,7 +70,7 @@ public class EventRepository {
 		LOGGER.info("Executing create");
 		try {
 			ResultSet rs = performQuery(
-					"INSERT INTO Event (id, data) VALUES (?, ?)",
+					"INSERT INTO events (id, data) VALUES (?, ?)",
 					String.valueOf(event.getId()),
 					event.getData()
 			);
@@ -90,15 +88,15 @@ public class EventRepository {
 		LOGGER.info("Executing update [id={}]", id);
 		try {
 			ResultSet rs = performQuery(
-					"UPDATE Event e SET data=? WHERE e.id=?",
+					"UPDATE events SET data=? WHERE id=?",
 					event.getData(),
 					event.getId()
 			);
 			LOGGER.info("Executed update - Success");
 			return rs.next();
-		} catch (SQLException ex) {
-			LOGGER.error("Executed update - Failure [id={}, message={}]", id, ex.getMessage());
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error("Executed update - Failure [id={}, message={}]", id, e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -106,12 +104,12 @@ public class EventRepository {
 	public boolean delete(String id) {
 		LOGGER.info("Executing delete [id={}]", id);
 		try {
-			ResultSet rs = performQuery("DELETE FROM events e WHERE e.id=?", String.valueOf(id));
+			ResultSet rs = performQuery("DELETE FROM events WHERE id=?", String.valueOf(id));
 			LOGGER.info("Executed delete - Success [id={}]", id);
 			return rs.next();
-		} catch (SQLException ex) {
-			LOGGER.error("Executed delete - Failure [id={}, message={}]", id, ex.getMessage());
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error("Executed delete - Failure [id={}, message={}]", id, e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 	}

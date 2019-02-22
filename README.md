@@ -181,7 +181,6 @@ Vi ønsker at å begrense hvem som har tilgang til å koble seg på databasen.
 
 ![Security Group Rules](images/security-group-rules.png)
 
-<br/>
 #### Sett opp databasemodell
 
 En relasjonsdatabase trenger en tabell å lagre data. Vi må gi dette til databasen vår. For å gjøre det skal vi kjøre en SQL-statement som oppretter denne. For å gjøre det må vi skrive en SQL-statmenet, koble oss på databasen og kjøre dette.
