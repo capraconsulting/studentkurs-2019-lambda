@@ -143,7 +143,7 @@ Vi oppretter en database i RDS, slik at vi har et sted å lagre data. Vi skal ku
 1. Opprette databaseinstansen
 2. Hente ut de instillingene vi trenger å gi til Lambda-funksjonene, slik at de kan koble til.
 3. Konfigurere sikkerhetsinstillinger for at ikke hvem som helst skal kunne koble seg på databasen vår
-4. Koble oss på databaseinstansen og opprette database og tilhørende modeller, slik at applikasjonen har noe å lese og skrive fra/til der
+4. Koble oss på databaseinstansen og opprette tabell for data, slik at applikasjonen har noe å lese og skrive fra/til der
 
 <br/>
 
@@ -154,7 +154,7 @@ Vi oppretter en database i RDS, slik at vi har et sted å lagre data. Vi skal ku
 3. Under _Use case_ velger du «Dev/Test» og trykker «Next»
 4. I dette steget velger vi en rekke detaljer om databasen vi skal sette opp. Det viktigste her er «DB instance class» sier noe om hvor stor last instansen vil kunne håndtere, og dermed også kostnandsnivået. Vi trenger ikke mer enn `db.t3.micro`
 5. Under «Settings» setter vi navn på instansen, og brukernavn og passord for den. Instansnavnet kan for eksempel være `eventsapp`. Brukernavnet kan godt være det samme. Passordet bør være noe du finner på selv. Husk å notere deg navn, brukernavn og passord slik at du har det til senere. Trykk «Next»
-6. I dette steget får vi en rekke valg for databasen. Vi lar det meste stå som standard. Vi skal først og fremst sette et navn på databasen som skal kjøre på databaseinstansen. Dette gjøres under feltet "Database name". Navnet kan godt være det samme om instansen, `eventsapp`. Trykk «Create database»
+6. I dette steget får vi en rekke valg for databasen. Vi lar det meste stå som standard. Vi skal først og fremst sette et navn på databasen som skal kjøre på databaseinstansen. Dette gjøres under feltet «Database name». Navnet kan godt være det samme om instansen, `eventsapp`. Trykk «Create database»
 
 <br/>
 
@@ -184,13 +184,20 @@ Vi ønsker at å begrense hvem som har tilgang til å koble seg på databasen.
 <br/>
 #### Sett opp databasemodell
 
-En relasjonsdatabase trenger en schema, altså en modell for hva som skal lagres. Vi må gi dette til databasen vår. For å gjøre det skal vi kjøre en SQL-statement som oppretter denne. For å gjøre det må vi skrive et script, koble oss på databasen og kjøre dette.
+En relasjonsdatabase trenger en tabell å lagre data. Vi må gi dette til databasen vår. For å gjøre det skal vi kjøre en SQL-statement som oppretter denne. For å gjøre det må vi skrive en SQL-statmenet, koble oss på databasen og kjøre dette.
 
-Scriptet har vi alt skrevet, du finner det i `db`-mappa. Det heter `setup.sql`. Sjekk at brukernavnet som står der, `eventsapp`, er det samme som oppga som brukernavn da du opprettet databasen. Deretter gjør du følgende:
+SQL har vi alt skrevet, du finner det i `db`-mappa. Det heter `setup.sql`. Sjekk at brukernavnet som står der, `eventsapp`, er det samme som oppga som brukernavn da du opprettet databasen. Deretter gjør du følgende:
 
 1. Åpne Pgadmin (hvis du ikke installerte det på forhånd finner du det [her](https://www.pgadmin.org/))
 2. Trykk på «Add connection to a server» øverst til venstre. Du oppgir tilkoblingsdetaljer som du fant i tidligere steg, altså URL til database, samt brukernavn og passord som du satte for databasen din.
-3. Når du har koblet til, høyreklikk på «Databases» og velg «»
+3. Når du har koblet til, dobbeltklikk på «Databases» slik at du får opp databasene. Velg den du opprettet da du lagde instansen, og trykk på SQL-knappen på oppgavelinja (til høyre for søppelbøtta)
+4. Kopier inn SQL fra `db/setup.sql` og lim inn i SQL-vinudet før du trykker på «Play»-knappen øverst. Hvis alt går etter planen vil det gi beskjeden `Query returned successfully with no result in 73 msec.`
+
+Dette kan vi også gjort via terminalen, med verktøyet `psql` (mer informasjon [her](https://www.postgresql.org/docs/9.2/app-psql.html)). Da kjører man kommandoen:
+
+```
+$ psql -d <databasenavn> -a -f db/setup.sql
+```
 
 ### Steg 3: Lambda Functions
 
