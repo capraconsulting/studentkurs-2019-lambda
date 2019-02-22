@@ -196,7 +196,15 @@ SQL har vi alt skrevet, du finner det i `db`-mappa. Det heter `setup.sql`. Sjekk
 Dette kan vi også gjort via terminalen, med verktøyet `psql` (mer informasjon [her](https://www.postgresql.org/docs/9.2/app-psql.html)). Da kjører man kommandoen:
 
 ```
-$ psql -d <databasenavn> -a -f db/setup.sql
+$ psql -U <brukernavn>  --password -h <url til database> -d <databasenavn> -a -f db/setup.sql
+```
+
+Her er URL til databasen altså den vi hentet ut tidligere, altså `<databaseinstansnavn>.cwkzdvvfjrvm.eu-west-1.rds.amazonaws.com` for eksempel `eventsappinstance.cwkzdvvfjrvm.eu-west-1.rds.amazonaws.com`
+
+For eksemepel:
+
+```
+$ psql -U eventsappuser  --password -h eventsappinstance.cwkzdvvfjrvm.eu-west-1.rds.amazonaws.com -d eventsapp -a -f db/setup.sql
 ```
 
 ### Steg 3: Lambda Functions
