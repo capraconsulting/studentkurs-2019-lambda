@@ -415,9 +415,22 @@ Dersom dette ikke byr på problemer bør alt fungere som det skal! Gratulerer --
 
 ### Veien videre / Ekstraoppgaver
 
-Ting vi kanskje kan lage ekstraoppgaver av:
+Nå har du fått satt opp alle de nødvendige tjenestene, hurra! Det er nå tid for å leke og videreutvikle løsningen din. Her er det veldig opp til deg selv, men her følger noen ideer til hva som kan gjøres:
+
+#### Implementere endring av eventer i webapplikasjon
 
 -   Implementer endring av event i webappen (kode er fjernet)
--   Implementere opplasting av bilder: Endeunkt i API Gateway -> Laste opp til S3 -> Gi en URL tilbake som man kan lagre i database
--   CloudFront for webappen
+
+#### Sette opp CloudFront foran webapplikasjonen
+
+AWS CloudFront er en tjeneste for caching i Content Delivery Networks (CDN), som stort sett settes foran blant annet nettsider i S3, men også APIer for applikasjoner, for å redusere lastetid. Du kan sette opp dette ved å gå til CloudFront i AWS, og trykke «Create distribution»
+
+#### Inviter venner per e-post
+
 -   Ved hjelp av SES og et ekstra felt for e-poster i appen, implementer at man sender ut invitasjoner til brukere per e-post
+
+#### Last opp bilder
+
+-   Implementere opplasting av bilder: Endeunkt i API Gateway -> Laste opp til S3 -> Gi en URL tilbake som man kan lagre i database
+
+Ting vi kanskje kan lage ekstraoppgaver av:
