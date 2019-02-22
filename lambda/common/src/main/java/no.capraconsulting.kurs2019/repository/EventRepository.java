@@ -20,18 +20,9 @@ public class EventRepository {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EventRepository.class);
 
-	private final List<Event> events = Arrays.asList(
-			new Event(LocalDateTime.now(), "Arbeidersamfunnets plass 1, 0181 Oslo", "Konsert", "Detta blir gøy"),
-			new Event(LocalDateTime.now().plusDays(1), "Stenersgata 2, 0184 Oslo", "Jobb", ":(")
-	);
 
 	private static Event parseResultSet(ResultSet rs) throws SQLException {
-		return new Event(
-				rs.getTimestamp("Time").toLocalDateTime(),
-				rs.getString("Address"),
-				rs.getString("Title"),
-				rs.getString("Description")
-		);
+		return new Event(rs.getString("id"), rs.getString("data"));
 	}
 
 	public List<Event> getAll() {
@@ -47,7 +38,7 @@ public class EventRepository {
 		} catch (SQLException e) {
 			LOGGER.error("Executed getAll - Failure [message={}]", e.getMessage());
 			e.printStackTrace();
-			return events;
+			return new ArrayList<>();
 		}
 	}
 
@@ -73,10 +64,7 @@ public class EventRepository {
 		} catch (SQLException e) {
 			LOGGER.error("Executed getById - Failure [id={}, message={}]", id, e.getMessage());
 			e.printStackTrace();
-			return events.stream()
-					.filter(event -> event.getId() == id)
-					.findAny()
-					.orElseThrow(exceptionSupplier);
+			return new Event();
 		}
 	}
 
@@ -84,12 +72,9 @@ public class EventRepository {
 		LOGGER.info("Executing create");
 		try {
 			ResultSet rs = performQuery(
-					"INSERT INTO Event (Id, Time, Address, Title, Description) VALUES (?, ?, ?, ?, ?)",
+					"INSERT INTO Event (id, data) VALUES (?, ?)",
 					String.valueOf(event.getId()),
-					Timestamp.valueOf(event.getTime()).toString(),
-					event.getAddress(),
-					event.getTitle(),
-					event.getDescription()
+					event.getData()
 			);
 
 			LOGGER.info("Executed create - Success");
@@ -97,7 +82,7 @@ public class EventRepository {
 		} catch (SQLException e) {
 			LOGGER.error("Executed create - Failure [message={}]", e.getMessage());
 			e.printStackTrace();
-			return events.add(event);
+			return false;
 		}
 	}
 
@@ -105,34 +90,29 @@ public class EventRepository {
 		LOGGER.info("Executing update [id={}]", id);
 		try {
 			ResultSet rs = performQuery(
-					"UPDATE Event e SET Time=?, Address=?, Title=?, Description=? WHERE e.Id=?",
-					Timestamp.valueOf(event.getTime()).toString(),
-					event.getAddress(),
-					event.getTitle(),
-					event.getDescription(),
-					String.valueOf(event.getId())
+					"UPDATE Event e SET data=? WHERE e.id=?",
+					event.getData(),
+					event.getId()
 			);
 			LOGGER.info("Executed update - Success");
 			return rs.next();
 		} catch (SQLException ex) {
 			LOGGER.error("Executed update - Failure [id={}, message={}]", id, ex.getMessage());
 			ex.printStackTrace();
-			// Hehe
-			boolean removed = events.removeIf(e -> e.getId() == id);
-			return removed && events.add(event);
+			return false;
 		}
 	}
 
-	public boolean delete(long id) {
+	public boolean delete(String id) {
 		LOGGER.info("Executing delete [id={}]", id);
 		try {
-			ResultSet rs = performQuery("DELETE FROM Event e WHERE e.Id=?", String.valueOf(id));
+			ResultSet rs = performQuery("DELETE FROM events e WHERE e.id=?", String.valueOf(id));
 			LOGGER.info("Executed delete - Success [id={}]", id);
 			return rs.next();
 		} catch (SQLException ex) {
 			LOGGER.error("Executed delete - Failure [id={}, message={}]", id, ex.getMessage());
 			ex.printStackTrace();
-			return events.removeIf(e -> e.getId() == id);
+			return false;
 		}
 	}
 }

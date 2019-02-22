@@ -16,9 +16,8 @@ public class DeleteHandler extends AbstractRequestHandler {
         JSONObject body = new JSONObject();
 
         boolean removed;
-        String rawId = req.getPathParameter("id");
-        if (rawId != null) {
-            long id = Long.parseLong(rawId);
+        String id = req.getPathParameter("id");
+        if (id != null) {
             removed = eventRepository.delete(id);
             body.put("message", removed ? "Event deleted" : "Could not delete event");
         } else {

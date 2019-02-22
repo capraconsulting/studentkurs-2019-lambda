@@ -9,66 +9,40 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Event {
 	private final static AtomicLong ID = new AtomicLong(0);
 
-	private long id = ID.incrementAndGet();
-	@JsonFormat(shape = JsonFormat.Shape.STRING)
-	private LocalDateTime time;
-	private String address;
-	private String title;
-	private String description;
+	private String id;
+	private String data;
 
-	public Event(LocalDateTime time, String address, String title, String description) {
-		this.time = time;
-		this.address = address;
-		this.title = title;
-		this.description = description;
+
+	public Event() {
+		id = "";
+		data = "";
+	}
+
+	public Event(String id, String data) {
+		this.id = id;
+		this.data = data;
 	}
 
 	public Event(String json) {
 		Gson gson = new Gson();
 		Event e = gson.fromJson(json, Event.class);
-		this.time = e.time;
-		this.address = e.address;
-		this.title = e.title;
-		this.description = e.description;
 	}
 
-	public long getId() {
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public LocalDateTime getTime() {
-		return time;
+	public String getData() {
+		return data;
 	}
 
-	public void setTime(LocalDateTime time) {
-		this.time = time;
+	public void setData(String data) {
+		this.data = data;
 	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
 }
