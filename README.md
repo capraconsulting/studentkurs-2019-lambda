@@ -21,7 +21,7 @@ $ git clone https://github.com/capraconsulting/studentkurs-2019
 2. Klone [webapp](https://github.com/capraconsulting/studentkurs-2019-webapp) og følg instruksjonene fra README-filen der for å komme i gang
 
 ```
-$ git clone https://github.com/capraconsulting/sutdentkurs-2019-webapp
+$ git clone https://github.com/capraconsulting/studentkurs-2019-webapp
 ```
 
 Da er du klar til å sette i gang!
