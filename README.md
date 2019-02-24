@@ -176,19 +176,6 @@ Nå skal vi hente ut URL til databasen, slik ta vi kan la koden vår koble seg p
 
 <br/>
 
-#### Opprett regler for tilgang til database
-
-Vi ønsker å begrense hvem som har tilgang til å koble seg på databasen.
-
-1. Velg "Services" helt øverst og deretter "EC2" under "Compute"-kategorien.
-2. Under "Network & Security" i fanen til venstre trykker du på "Security Groups"
-3. Trykk på Security Group-en som har `rds-launch-wizard` som "Group Name"
-4. Velg fanen "Inbound". Du ser nå en oversikt over regler for innkommende trafikk til denne sikkerhetsgruppen. Trykk "Edit".
-5. Legg til en ny regel ("Add Rule") og fyll den ut med `Type: PostgreSQL` og `Source: Custom`. I input-feltet kan du begynne å skrive "sg" og du vil da få opp en liste med sikkerhetsgrupper. Velg ID-en til `rds-launch-wizard`. Dette står som "Group ID" i listen over Security Groups.
-6. Det skal da se ca slik ut:
-
-![Security Group Rules](images/security-group-rules.png)
-
 #### Sett opp databasemodell
 
 En relasjonsdatabase trenger en tabell for å lagre data. Vi må gi dette til databasen vår. For å gjøre det skal vi kjøre en SQL-statement som oppretter denne. For å gjøre det må vi skrive en SQL-statmenet, koble oss på databasen og kjøre dette.
@@ -213,6 +200,19 @@ For eksemepel:
 ```
 $ psql -U eventsappuser  --password -h eventsappinstance.cwkzdvvfjrvm.eu-west-1.rds.amazonaws.com -d eventsapp -a -f db/setup.sql
 ```
+
+#### Opprett regler for tilgang til database
+
+Vi ønsker å begrense hvem som har tilgang til å koble seg på databasen fra nå av.
+
+1. Velg "Services" helt øverst og deretter "EC2" under "Compute"-kategorien.
+2. Under "Network & Security" i fanen til venstre trykker du på "Security Groups"
+3. Trykk på Security Group-en som har `rds-launch-wizard` som "Group Name"
+4. Velg fanen "Inbound". Du ser nå en oversikt over regler for innkommende trafikk til denne sikkerhetsgruppen. Trykk "Edit".
+5. Legg til en ny regel ("Add Rule") og fyll den ut med `Type: PostgreSQL` og `Source: Custom`. I input-feltet kan du begynne å skrive "sg" og du vil da få opp en liste med sikkerhetsgrupper. Velg ID-en til `rds-launch-wizard`. Dette står som "Group ID" i listen over Security Groups.
+6. Det skal da se cirka slik ut:
+
+![Security Group Rules](images/security-group-rules.png)
 
 ### Steg 3: Lambda Functions
 
