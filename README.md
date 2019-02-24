@@ -162,7 +162,10 @@ Vi oppretter en database i RDS, slik at vi har et sted å lagre data. Vi skal ku
 4. I dette steget velger vi en rekke detaljer om databasen vi skal sette opp. Det viktigste her er «DB instance class» sier noe om hvor stor last instansen vil kunne håndtere, og dermed også kostnandsnivået. Vi trenger ikke mer enn `db.t3.micro`
 5. Huk også av «Only enable options eligible for RDS Free Usage Tier»
 6. Under «Settings» setter vi navn på instansen, og brukernavn og passord for den. Instansnavnet kan for eksempel være `eventsapp`. Brukernavnet kan godt være det samme. Passordet bør være noe du finner på selv. Husk å notere deg navn, brukernavn og passord slik at du har det til senere. Trykk «Next»
-7. I dette steget får vi en rekke valg for databasen. Vi lar det meste stå som standard. Vi skal først og fremst sette et navn på databasen som skal kjøre på databaseinstansen. Dette gjøres under feltet «Database name». Navnet kan godt være det samme om instansen, `eventsapp`. Trykk «Create database»
+7. I dette steget får vi en rekke valg for databasen. Vi lar det meste stå som standard. Dobbeltsjekk at du tillater at man kan koble til databasen utenfra, altså at «Public accessibility» er satt til «Yes». Vi lar også RDS opprette nytt Virtual Private Network (VPC) og subgrupper av dette for instansen din. Derfor skal disse to valgene settes til «Create new VPC» og «Create new DB Subnet Group». Du kan se valgene i figuren under også.
+8. Vi må også sette sette et navn på databasen som skal kjøre på databaseinstansen. Dette gjøres under feltet «Database name». Navnet kan godt være det samme om instansen, `eventsapp`. Trykk «Create database»
+
+![Security settings for RDS database instance](images/rds-security-setup.png)
 
 <br/>
 
