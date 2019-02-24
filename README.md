@@ -80,10 +80,11 @@ Vi kjører i gang!
 1. Logg inn i [AWS Management Console](https://eu-north-1.console.aws.amazon.com/console)
 2. Naviger til S3. Det enkleste er å søke i feltet under «Find services».
 3. Du har nå kommet til S3, som viser deg en liste over de _buckets_ du har. Den er foreløpig tom. En bucket er som en slags mappe du kan konfigurere. For å opprette en slik, trykk «Create bucket»
-4. Gi den et navn som er DNS-compliant, det vil si at det må kunne være et gyldig domene. Navn på _buckets_ må være unikt globalt. Det betyr at ikke alle på kurset kan ha samme navn på sin bucket. Vi foreslår at du gir denne bucketen `<hva du vil kalle din Event-tjeneste>.no`, for eksempel `123events.no`. Trykk «Next».
-5. I neste steg kan du gjøre flere valg for bøtta, som å tagge den (nyttig hvis man har mye forskjellig på en og samme AWS-konto), eller skru på versjonering av objektene. Vi trenger ikke noe av dette når vi bare skal lagre en nettside, så vi trykker «Next».
-6. Dette steget kontrollerer hvilke kontoer som kan sette tilganger for denne bucketen. For at vi skal kunne laste opp objekter og sette disse helt public (det skal jo være en nettside), må vi fjerne markeringen ved «Block new public ACLs and uploading public objects (Recommended)» og «Remove public access granted through public ACLs (Recommended)». Gjør dette, og trykk «Next».
-7. Da kommer vi til siste steg. Trykk «Create bucket».
+4. Gi den et navn som er DNS-compliant, det vil si at det må kunne være et gyldig domene. Navn på _buckets_ må være unikt globalt. Det betyr at ikke alle på kurset kan ha samme navn på sin bucket. Vi foreslår at du gir denne bucketen `<hva du vil kalle din Event-tjeneste>.no`, for eksempel `123events.no`. 
+5. Alle regioner vil fungere, men det beste er å velge en som er i nærheten av hvor applikasjonen skal brukes, for å redusere latency. Etter at du har valgt en region, trykk «Next».
+6. I neste steg kan du gjøre flere valg for bøtta, som å tagge den (nyttig hvis man har mye forskjellig på en og samme AWS-konto), eller skru på versjonering av objektene. Vi trenger ikke noe av dette når vi bare skal lagre en nettside, så vi trykker «Next».
+7. Dette steget kontrollerer hvilke kontoer som kan sette tilganger for denne bucketen. For at vi skal kunne laste opp objekter og sette disse helt public (det skal jo være en nettside), må vi fjerne markeringen ved «Block new public ACLs and uploading public objects (Recommended)» og «Remove public access granted through public ACLs (Recommended)». Gjør dette, og trykk «Next».
+8. Da kommer vi til siste steg. Trykk «Create bucket».
 
 <br/>
 
@@ -92,7 +93,7 @@ Vi kjører i gang!
 Når bucketen er opprettet må vi gjøre den public. Det gjør vi ved å trykke på navnet på bucketen, slik at vi går inn på den. Deretter gjør vi følgende:
 
 1. Velg «Properties» øverst
-2. Trykk på «Static web hosting»
+2. Trykk på «Static webwsite hosting»
 3. Kopier URL som står etter «Endpoint». Dette blir URL til webappen, så den må du lagre til senere.
 4. Velg «Use this bucket to host a website»
 5. Under «Index document» skriver du `index.html`, altså standard verdi man bruker for indeksdokument til en nettside.
@@ -132,13 +133,15 @@ $ aws s3 ls
 $ aws s3 cp dist/ s3://<navn på bucket> --acl public-read --recursive
 ```
 
-Når opplasting er ferdig bør du kunne nå applikasjonen på URLen vi lagret i stad.
+<br/>
+
+Når opplasting er ferdig bør du kunne nå applikasjonen på URLen vi lagret i stad. Foreløpig snakker ikke web-applikasjonen med noen andre tjenester, så videre skal disse tjenestene settes opp.
 
 <br/>
 
 ### Steg 2: Relational Database Serivce (RDS)
 
-Vi oppretter en database i RDS, slik at vi har et sted å lagre data. Vi skal kunne nå denne fra Lambda funksjonene. Det er da to steg:
+Vi oppretter en database i RDS, slik at vi har et sted å lagre data. Vi skal kunne nå denne fra Lambda funksjonene. Det er da fire steg:
 
 1. Opprette databaseinstansen
 2. Hente ut de instillingene vi trenger å gi til Lambda-funksjonene, slik at de kan koble til.
@@ -150,11 +153,12 @@ Vi oppretter en database i RDS, slik at vi har et sted å lagre data. Vi skal ku
 #### Opprett databaseinstans i AWS
 
 1. Gå til RDS og velg «Create database»
-2. I første steg velger vi type database. I dette kurset velger vi Postgres, så velg dette og trykk «Next»
+2. I første steg velger vi type database. I dette kurset bruker vi Postgres, så velg dette og trykk «Next»
 3. Under _Use case_ velger du «Dev/Test» og trykker «Next»
 4. I dette steget velger vi en rekke detaljer om databasen vi skal sette opp. Det viktigste her er «DB instance class» sier noe om hvor stor last instansen vil kunne håndtere, og dermed også kostnandsnivået. Vi trenger ikke mer enn `db.t3.micro`
-5. Under «Settings» setter vi navn på instansen, og brukernavn og passord for den. Instansnavnet kan for eksempel være `eventsapp`. Brukernavnet kan godt være det samme. Passordet bør være noe du finner på selv. Husk å notere deg navn, brukernavn og passord slik at du har det til senere. Trykk «Next»
-6. I dette steget får vi en rekke valg for databasen. Vi lar det meste stå som standard. Vi skal først og fremst sette et navn på databasen som skal kjøre på databaseinstansen. Dette gjøres under feltet «Database name». Navnet kan godt være det samme om instansen, `eventsapp`. Trykk «Create database»
+5. Huk også av «Only enable options eligible for RDS Free Usage Tier»
+6. Under «Settings» setter vi navn på instansen, og brukernavn og passord for den. Instansnavnet kan for eksempel være `eventsapp`. Brukernavnet kan godt være det samme. Passordet bør være noe du finner på selv. Husk å notere deg navn, brukernavn og passord slik at du har det til senere. Trykk «Next»
+7. I dette steget får vi en rekke valg for databasen. Vi lar det meste stå som standard. Vi skal først og fremst sette et navn på databasen som skal kjøre på databaseinstansen. Dette gjøres under feltet «Database name». Navnet kan godt være det samme om instansen, `eventsapp`. Trykk «Create database»
 
 <br/>
 
@@ -170,7 +174,7 @@ Nå skal vi hente ut URL til databasen, slik ta vi kan la koden vår koble seg p
 
 #### Opprett regler for tilgang til database
 
-Vi ønsker at å begrense hvem som har tilgang til å koble seg på databasen.
+Vi ønsker å begrense hvem som har tilgang til å koble seg på databasen.
 
 1. Velg "Services" helt øverst og deretter "EC2" under "Compute"-kategorien.
 2. Under "Network & Security" i fanen til venstre trykker du på "Security Groups"
@@ -183,7 +187,7 @@ Vi ønsker at å begrense hvem som har tilgang til å koble seg på databasen.
 
 #### Sett opp databasemodell
 
-En relasjonsdatabase trenger en tabell å lagre data. Vi må gi dette til databasen vår. For å gjøre det skal vi kjøre en SQL-statement som oppretter denne. For å gjøre det må vi skrive en SQL-statmenet, koble oss på databasen og kjøre dette.
+En relasjonsdatabase trenger en tabell for å lagre data. Vi må gi dette til databasen vår. For å gjøre det skal vi kjøre en SQL-statement som oppretter denne. For å gjøre det må vi skrive en SQL-statmenet, koble oss på databasen og kjøre dette.
 
 SQL har vi alt skrevet, du finner det i `db`-mappa. Det heter `setup.sql`. Sjekk at brukernavnet som står der, `eventsapp`, er det samme som oppga som brukernavn da du opprettet databasen. Deretter gjør du følgende:
 
@@ -431,5 +435,3 @@ AWS CloudFront er en tjeneste for caching i Content Delivery Networks (CDN), som
 #### Last opp bilder
 
 -   Implementere opplasting av bilder: Endeunkt i API Gateway -> Laste opp til S3 -> Gi en URL tilbake som man kan lagre i database
-
-Ting vi kanskje kan lage ekstraoppgaver av:
