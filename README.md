@@ -1,14 +1,18 @@
-# Studentkurs 2019
+# Capras kurs i AWS for studenter våren 2019
 
-I dette kurset skal vi sette opp en web-applikasjon med lagring til database med Amazon Web Services. Web-applikasjonen er en enkel sak for å opprette, endre, slette og se på arrangementer. Den er skrevet i TypeScript med React.
+I dette kurset skal vi sette opp en web-applikasjon med lagring til database med Amazon Web Services. Web-applikasjonen er en enkel sak for å opprette, endre, slette og se på arrangementer. Den er skrevet i TypeScript med React. Backenden vår er skrevet i Java, og er skrevet for å være Lambda-funksjoner i AWS.
+
+Den første delen består i å sette opp alle tjenestene, og få applikasjonen til å fungere. Her har vi forsøkt å skrive detaljerte instruksjoner, men ikke nøl med å spørre dersom noe er uklart eller du står fast.
+
+I den siste delen har vi laget noen ekstraoppgaver, hvor instruksjonene ikke er like detaljerte. Vi stiller med noen lenker og pekepinner på hvor man kan starte for å løse oppgaven, men deretter er det opp til dere. Vi er selvsagt også tilgjengelig for spørsmål.
+
+Presentasjonen som Capra holdt kan du finne [her](docs/presentation.pdf).
 
 <br/>
 
 ## Oppsett av utviklingsmiljø lokalt
 
-Sørg for at du har gjort det som trengs på forhånd. Se PDF som ble sendt ut før kurset. Hvis du ikke har fått den, ligger den [her]()
-
-Presentasjonen som Capra holdt kan du finne [her]().
+Sørg for at du har gjort det som trengs på forhånd. Se PDF som ble sendt ut før kurset. Hvis du ikke har fått den, ligger den [her](docs/setup-instructions.pdf)
 
 Når du er klar kan du fortsette med følgende:
 
@@ -422,15 +426,18 @@ Nå har du fått satt opp alle de nødvendige tjenestene, hurra! Det er nå tid 
 
 #### Implementere endring av eventer i webapplikasjon
 
--   Implementer endring av event i webappen (kode er fjernet)
+Vi har opprinnelig implementert endring av arrangementer. Funksjonaliteten finnes i Lambda-funksjonene, men vi har fjernet det fra webapplikasjonen. Klarer du å implementere det igjen?
 
 #### Sette opp CloudFront foran webapplikasjonen
 
-AWS CloudFront er en tjeneste for caching i Content Delivery Networks (CDN), som stort sett settes foran blant annet nettsider i S3, men også APIer for applikasjoner, for å redusere lastetid. Du kan sette opp dette ved å gå til CloudFront i AWS, og trykke «Create distribution»
+[AWS CloudFront](https://aws.amazon.com/cloudfront/) er en tjeneste for caching i Content Delivery Networks (CDN), som stort sett settes foran blant annet nettsider i S3, men også APIer for applikasjoner, for å redusere lastetid. Du kan sette opp dette ved å gå til CloudFront i AWS, og trykke «Create distribution».
 
 #### Inviter venner per e-post
 
--   Ved hjelp av SES og et ekstra felt for e-poster i appen, implementer at man sender ut invitasjoner til brukere per e-post
+AWS har tjenester for å sende varsler på ulike måter, for eksempel via e-post. For det har de [AWS SES](https://aws.amazon.com/ses/). Ved å ta i bruk denne tjenesten, og legge til et ekstra felt som lagres i webapplikasjonen, kan vi invitere brukere til arrangementer.
+
+1. Legg til et felt for e-postadresser i webappliksajonen, og sørg for at dette sendes med når man lagrer eller endrer et arrangement
+2. Gjør endringer i Lambda-funksjonene (endre og lage arrangement) som plukker ut feltet med e-postadressene, og sender en e-post til hver av dem ved hjelp av AWS SES. Denne [hjelpesiden](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-email.html) kan være nyttig når du skal implementere dette.
 
 #### Last opp bilder
 
