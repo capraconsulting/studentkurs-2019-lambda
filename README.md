@@ -206,7 +206,7 @@ $ psql -U eventsappuser  --password -h eventsappinstance.cwkzdvvfjrvm.eu-west-1.
 
 #### Opprett regler for tilgang til database
 
-Vi ønsker å begrense hvem som har tilgang til å koble seg på databasen fra nå av.
+Vi ønsker å begrense hvem som har tilgang til å koble seg på databasen fra nå av. Da må vi justere Security Group for databasen. Det gjør vi slik:
 
 1. Velg "Services" helt øverst og deretter "EC2" under "Compute"-kategorien.
 2. Under "Network & Security" i fanen til venstre trykker du på "Security Groups"
