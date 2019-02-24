@@ -362,7 +362,7 @@ Nå som vi har ressurser kan vi knytte metoder til dem, som vi peker mot Lambda-
 
 ![Endre Method-visning i AWS-console](images/api-gateway-add-lambda.png)
 
-Gjenta dette slik at du får laget alle metodene som trengs for hver ressurs, og knyttet alle disse opp mot riktig Lambda-funksjon.
+Gjenta dette slik at du får laget alle metodene som trengs for hver ressurs, og knyttet alle disse opp mot riktig Lambda-funksjon. Merk at du i tillegg til de vanlige metodene gjerne også må ha et [`OPTIONS`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS) slik at de såklate [preflight-forespørslene](https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request) nettleseren gjør er mulig.
 
 <br/>
 
