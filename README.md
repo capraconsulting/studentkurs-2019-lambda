@@ -357,7 +357,7 @@ Nå som vi har ressurser kan vi knytte metoder til dem, som vi peker mot Lambda-
 
 1. Trykk «Actions» og så «Create method»
 2. Velg HTTP-metode i dropdown-menyen
-3. Du får da mulighet for å konfigurere metoden mot endepunktet. Vi skal sende requests til endepukntet mot en Lambda, så velg « Lambda Function» og søk på funksjonen du vil knytte til endepunktet i boksen for «Lambda Function». Velg den du skal ha, og trykk «OK» i vinduet som dukker opp. Det sørger for at de riktige tillatlesene settes opp.
+3. Du får da mulighet for å konfigurere metoden mot endepunktet. Vi skal sende requests til endepukntet mot en Lambda, så velg « Lambda Function» og søk på funksjonen du vil knytte til endepunktet i boksen for «Lambda Function». Velg den du skal ha, og trykk «OK» i vinduet som dukker opp. Det sørger for at de riktige tillatlesene settes opp. Huk av for «Use Lambda Proxy integration»
 4. Når du er ferdig trykker du «Save»
 
 ![Endre Method-visning i AWS-console](images/api-gateway-add-lambda.png)
