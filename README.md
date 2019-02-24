@@ -84,7 +84,7 @@ Vi kjører i gang!
 1. Logg inn i [AWS Management Console](https://eu-north-1.console.aws.amazon.com/console)
 2. Naviger til S3. Det enkleste er å søke i feltet under «Find services».
 3. Du har nå kommet til S3, som viser deg en liste over de _buckets_ du har. Den er foreløpig tom. En bucket er som en slags mappe du kan konfigurere. For å opprette en slik, trykk «Create bucket»
-4. Gi den et navn som er DNS-compliant, det vil si at det må kunne være et gyldig domene. Navn på _buckets_ må være unikt globalt. Det betyr at ikke alle på kurset kan ha samme navn på sin bucket. Vi foreslår at du gir denne bucketen `<hva du vil kalle din Event-tjeneste>.no`, for eksempel `123events.no`. 
+4. Gi den et navn som er DNS-compliant, det vil si at det må kunne være et gyldig domene. Navn på _buckets_ må være unikt globalt. Det betyr at ikke alle på kurset kan ha samme navn på sin bucket. Vi foreslår at du gir denne bucketen `<hva du vil kalle din Event-tjeneste>.no`, for eksempel `123events.no`.
 5. Alle regioner vil fungere, men det beste er å velge en som er i nærheten av hvor applikasjonen skal brukes, for å redusere latency. Etter at du har valgt en region, trykk «Next».
 6. I neste steg kan du gjøre flere valg for bøtta, som å tagge den (nyttig hvis man har mye forskjellig på en og samme AWS-konto), eller skru på versjonering av objektene. Vi trenger ikke noe av dette når vi bare skal lagre en nettside, så vi trykker «Next».
 7. Dette steget kontrollerer hvilke kontoer som kan sette tilganger for denne bucketen. For at vi skal kunne laste opp objekter og sette disse helt public (det skal jo være en nettside), må vi fjerne markeringen ved «Block new public ACLs and uploading public objects (Recommended)» og «Remove public access granted through public ACLs (Recommended)». Gjør dette, og trykk «Next».
@@ -439,6 +439,14 @@ AWS har tjenester for å sende varsler på ulike måter, for eksempel via e-post
 1. Legg til et felt for e-postadresser i webappliksajonen, og sørg for at dette sendes med når man lagrer eller endrer et arrangement
 2. Gjør endringer i Lambda-funksjonene (endre og lage arrangement) som plukker ut feltet med e-postadressene, og sender en e-post til hver av dem ved hjelp av AWS SES. Denne [hjelpesiden](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-email.html) kan være nyttig når du skal implementere dette.
 
-#### Last opp bilder
+#### Implementer bildeopplasting i webapplikasjonen
 
--   Implementere opplasting av bilder: Endeunkt i API Gateway -> Laste opp til S3 -> Gi en URL tilbake som man kan lagre i database
+Vi ønsker også å kunne ha bilder på arrangementene, slik at man kan vekke interessen til besøkende på en bedre måte. For å få til det må vi:
+
+1. Implemnetere opplasting av bilder i webapplikasjonen
+2. Lagre plasseringen av bildene med arrangementet, altså legge dette til et felt som vi sender til backend for lagring
+3. Vise bildet for arrangementer som har det, altså implementere dette i webapplikasjonen
+
+Å kunne lagre bilder kan implemneteres direkte mot S3 fra webapplikasjonen. [Denne siden](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/s3-example-photo-album.html) bør kunne være en pekepinn på hvordan man gjør det.
+
+Når bildet er lagret må du da få URL til bildet, og lagre sammen med arrangementet. Til slutt må denne URLen brukes til å vise bildet med arrangementet.
