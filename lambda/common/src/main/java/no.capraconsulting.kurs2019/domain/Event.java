@@ -1,43 +1,38 @@
 package no.capraconsulting.kurs2019.domain;
 
-import com.google.gson.Gson;
+import no.capraconsulting.kurs2019.utils.JsonUtils;
 
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class Event {
-	private String id;
-	private String data;
+    private String id;
+    private EventData data;
 
-	public Event() {
-		id = "";
-		data = "";
-	}
 
-	public Event(String id, String data) {
-		this.id = id;
-		this.data = data;
-	}
+    public Event(String id, String data) {
+        this.id = id;
+        this.data = JsonUtils.fromJSON(data, EventData.class);
+    }
 
-	public Event(String json) {
-		Gson gson = new Gson();
-		Event e = gson.fromJson(json, Event.class);
-	}
+    public Event(String json) {
+        this.id = UUID.randomUUID().toString();
+        this.data = JsonUtils.fromJSON(json, EventData.class);
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getData() {
-		return data;
-	}
+    public String getData() {
+        return JsonUtils.toJSON(data);
+    }
 
-	public void setData(String data) {
-		this.data = data;
-	}
+    public void setData(String data) {
+        this.data = JsonUtils.fromJSON(data, EventData.class);
+    }
 
 }
