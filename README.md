@@ -451,13 +451,9 @@ Dersom dette ikke byr på problemer bør alt fungere som det skal! Gratulerer --
 
 Nå har du fått satt opp alle de nødvendige tjenestene, hurra! Det er nå tid for å leke og videreutvikle løsningen din. Her er det veldig opp til deg selv, men her følger noen ideer til hva som kan gjøres:
 
-#### Implementere endring av eventer i webapplikasjon
-
-Vi har opprinnelig implementert endring av arrangementer. Funksjonaliteten finnes i Lambda-funksjonene, men vi har fjernet det fra webapplikasjonen. Klarer du å implementere det igjen?
-
 #### Sette opp CloudFront foran webapplikasjonen
 
-[AWS CloudFront](https://aws.amazon.com/cloudfront/) er en tjeneste for caching i Content Delivery Networks (CDN), som stort sett settes foran blant annet nettsider i S3, men også APIer for applikasjoner, for å redusere lastetid. Du kan sette opp dette ved å gå til CloudFront i AWS, og trykke «Create distribution».
+[AWS CloudFront](https://aws.amazon.com/cloudfront/) er en tjeneste for caching i Content Delivery Networks (CDN), som stort sett settes foran blant annet nettsider i S3, men også APIer for applikasjoner, for å redusere lastetid. Du kan sette opp dette ved å gå til CloudFront i AWS, og trykke «Create distribution». Du finner mer hjelp i [denne guiden](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/GettingStarted.html)
 
 #### Inviter venner per e-post
 
