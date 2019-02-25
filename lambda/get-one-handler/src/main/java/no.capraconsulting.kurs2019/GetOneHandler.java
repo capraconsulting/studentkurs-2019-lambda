@@ -15,7 +15,7 @@ public class GetOneHandler extends AbstractRequestHandler {
 
     @Override
     public void handleRequest(Request req, Response res) throws IOException {
-        String id = req.getPathParameter("id");
+        String id = req.getPathParameter("uuid");
         if (id != null) {
             Event event = eventRepository.getById(id);
             if (event != null) {

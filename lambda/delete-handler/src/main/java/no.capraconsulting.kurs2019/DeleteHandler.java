@@ -14,7 +14,7 @@ public class DeleteHandler extends AbstractRequestHandler {
 
     @Override
     public void handleRequest(Request req, Response res) throws IOException {
-        String id = req.getPathParameter("id");
+        String id = req.getPathParameter("uuid");
         if (id != null) {
             boolean removed = eventRepository.delete(id);
             if (removed) {

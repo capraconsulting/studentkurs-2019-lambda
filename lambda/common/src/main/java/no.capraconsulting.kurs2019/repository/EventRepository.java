@@ -138,10 +138,15 @@ public class EventRepository {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM events WHERE id=?");
             preparedStatement.setString(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
 
-            LOGGER.info("Executed delete - Success [id={}]", id);
-            return rs.next();
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected == 1) {
+                LOGGER.info("Executed delete - Success [id={}]", id);
+                return true;
+            } else {
+                LOGGER.info("Executed delete - failed [id={}]", id);
+                return false;
+            }
         } catch (SQLException e) {
             LOGGER.error("Executed delete - Failure [id={}, message={}]", id, e.getMessage());
             e.printStackTrace();

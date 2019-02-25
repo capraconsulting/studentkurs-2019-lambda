@@ -19,7 +19,7 @@ public class UpdateHandler extends AbstractRequestHandler {
         if (req.getBody() != null) {
             Event event = new Event(req.getBody());
 
-            String id = req.getPathParameter("id");
+            String id = req.getPathParameter("uuid");
             if (id != null) {
                 Event updatedEvent = eventRepository.update(id, event);
                 if (updatedEvent != null) {
