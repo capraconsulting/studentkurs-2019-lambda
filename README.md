@@ -239,7 +239,7 @@ I dette steget skal vi opprette Lambda-funksjoner, ett for hvert endepunkt. Dere
 2. Sjekk at du er i AWS-region Stockholm, også kjent som `eu-north-1`. Dette ser du øverst i venstre hjørnet. Hvis du ikke er det allerede, bytter du til `eu-north-1` Stockholm.
 3. Gå til Lambda
 4. Trykk «Create function»
-5. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksempel `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Create a custom role», noe som åpner et nytt vindu. SE til at navnet på rollen er `service-roles/basic_lambda_execution`. Trykk så «Allow» nederst til høyre.
+5. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksempel `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Create a custom role», noe som åpner et nytt vindu. SE til at navnet på rollen er `lambda_basic_execution`. Trykk så «Allow» nederst til høyre.
 6. Trykk «Create function»
 
 <br/>
