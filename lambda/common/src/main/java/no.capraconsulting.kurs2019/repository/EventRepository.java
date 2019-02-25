@@ -118,13 +118,14 @@ public class EventRepository {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE events SET data=?::jsonb WHERE id=?");
             preparedStatement.setString(1, event.getData());
             preparedStatement.setString(2, id);
-            ResultSet rs = preparedStatement.executeQuery();
 
-            LOGGER.info("Executed update - Success");
-            if (rs.next()) {
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected == 1) {
+                LOGGER.info("Executed update - Success");
                 return event;
+            } else {
+                return null;
             }
-            return null;
         } catch (SQLException e) {
             LOGGER.error("Executed update - Failure [id={}, message={}]", id, e.getMessage());
             e.printStackTrace();
