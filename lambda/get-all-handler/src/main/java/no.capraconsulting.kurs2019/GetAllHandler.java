@@ -15,6 +15,7 @@ public class GetAllHandler extends AbstractRequestHandler {
     @Override
     public void handleRequest(Request req, Response res) throws IOException {
         List<Event> events = eventRepository.getAll();
+        LOGGER.debug("Returning {} events", events.size());
         res.send(events);
     }
 }

@@ -21,9 +21,8 @@ public class UpdateHandler extends AbstractRequestHandler {
 
             boolean updated;
 
-            String rawId = req.getPathParameter("id");
-            if (rawId != null) {
-                long id = Long.parseLong(rawId);
+            String id = req.getPathParameter("id");
+            if (id != null) {
                 updated = eventRepository.update(id, event);
                 body.put("message", updated ? "Updated Event" : "Could not update event");
             } else {

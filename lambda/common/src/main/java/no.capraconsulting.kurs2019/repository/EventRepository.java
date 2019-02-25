@@ -49,7 +49,7 @@ public class EventRepository {
 		return statement.executeQuery();
 	}
 
-	public Event getById(long id) {
+	public Event getById(String id) {
 		LOGGER.info("Executing getById [id={}]", id);
 		Supplier<RuntimeException> exceptionSupplier = () -> new RuntimeException("Event with id " + id + " not found");
 		try {
@@ -86,7 +86,7 @@ public class EventRepository {
 		}
 	}
 
-	public boolean update(long id, Event event) {
+	public boolean update(String id, Event event) {
 		LOGGER.info("Executing update [id={}]", id);
 		try {
 			ResultSet rs = performQuery(

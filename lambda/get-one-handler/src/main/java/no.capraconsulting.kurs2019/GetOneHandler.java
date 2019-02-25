@@ -17,9 +17,8 @@ public class GetOneHandler extends AbstractRequestHandler {
         JSONObject body = new JSONObject();
 
         Event event = null;
-        String rawId = req.getPathParameter("id");
-        if (rawId != null) {
-            long id = Long.parseLong(rawId);
+        String id = req.getPathParameter("id");
+        if (id != null) {
             event = eventRepository.getById(id);
         } else {
             body.put("message", "Missing id");
