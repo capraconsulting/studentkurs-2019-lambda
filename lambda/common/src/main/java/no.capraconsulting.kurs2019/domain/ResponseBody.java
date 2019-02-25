@@ -9,4 +9,8 @@ public class ResponseBody {
         this.statusCode = statusCode;
         this.body = body;
     }
+
+    public ResponseBody(int statusCode) {
+        this.statusCode = statusCode;
+    }
 }

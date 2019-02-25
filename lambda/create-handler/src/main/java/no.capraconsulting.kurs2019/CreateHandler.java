@@ -3,6 +3,8 @@ package no.capraconsulting.kurs2019;
 import no.capraconsulting.kurs2019.domain.Event;
 import no.capraconsulting.kurs2019.domain.Request;
 import no.capraconsulting.kurs2019.domain.Response;
+import no.capraconsulting.kurs2019.domain.ResponseBody;
+import no.capraconsulting.kurs2019.utils.JsonUtils;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,15 +16,15 @@ public class CreateHandler extends AbstractRequestHandler {
 
     @Override
     public void handleRequest(Request req, Response res) throws IOException {
-        JSONObject body = new JSONObject();
-
         if (req.getBody() != null) {
-            boolean result = eventRepository.create(new Event(req.getBody()));
-            body.put("message", result ? "Event created" : "Could not create event");
+            Event result = eventRepository.create(new Event(req.getBody()));
+            if (result != null) {
+                res.send(new ResponseBody(201, JsonUtils.toJSON(result)));
+            } else {
+                res.send(new ResponseBody(500, "Could not save event to database"));
+            }
         } else {
-            body.put("message", "Missing request body");
+            res.send(new ResponseBody(400, "Could not save event. Body is missing"));
         }
-
-        res.send(body.toString());
     }
 }

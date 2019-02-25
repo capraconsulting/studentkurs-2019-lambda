@@ -34,12 +34,7 @@ public class EventRepository {
 
             List<Event> events = new ArrayList<>();
             while (rs.next()) {
-                events.add(
-                        new Event(
-                                rs.getString("id"),
-                                rs.getString("data")
-                        )
-                );
+                events.add(parseResultSet(rs));
             }
             LOGGER.info("Executed getAll - Success");
             return events;
@@ -73,7 +68,11 @@ public class EventRepository {
         LOGGER.info("Executing getById [id={}]", id);
         Supplier<RuntimeException> exceptionSupplier = () -> new RuntimeException("Event with id " + id + " not found");
         try {
-            ResultSet rs = performQuery("SELECT * FROM events WHERE id = ?", String.valueOf(id));
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM events WHERE id = ?");
+            preparedStatement.setString(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
             if (rs.next()) {
                 LOGGER.info("Executed getById - Success [id={}]", id);
                 return parseResultSet(rs);
@@ -87,7 +86,7 @@ public class EventRepository {
         }
     }
 
-    public boolean create(Event event) {
+    public Event create(Event event) {
         LOGGER.info("Executing create");
         try {
             event.setId(UUID.randomUUID().toString());
@@ -98,36 +97,48 @@ public class EventRepository {
             preparedStatement.setString(2, event.getData());
             ResultSet rs = preparedStatement.executeQuery();
 
-            LOGGER.info("Executed create - Success");
-            return rs.next();
+            if (rs.next()) {
+                LOGGER.info("Executed create - Success");
+                return event;
+            }
+            LOGGER.error("Could not save event to database");
+            return null;
         } catch (SQLException e) {
             LOGGER.error("Executed create - Failure [message={}]", e.getMessage());
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 
-    public boolean update(String id, Event event) {
+    public Event update(String id, Event event) {
         LOGGER.info("Executing update [id={}]", id);
         try {
-            ResultSet rs = performQuery(
-                    "UPDATE events SET data=? WHERE id=?",
-                    event.getData(),
-                    event.getId()
-            );
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE events SET data=?::jsonb WHERE id=?");
+            preparedStatement.setString(1, event.getData());
+            preparedStatement.setString(2, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
             LOGGER.info("Executed update - Success");
-            return rs.next();
+            if (rs.next()) {
+                return event;
+            }
+            return null;
         } catch (SQLException e) {
             LOGGER.error("Executed update - Failure [id={}, message={}]", id, e.getMessage());
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 
     public boolean delete(String id) {
         LOGGER.info("Executing delete [id={}]", id);
         try {
-            ResultSet rs = performQuery("DELETE FROM events WHERE id=?", String.valueOf(id));
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM events WHERE id=?");
+            preparedStatement.setString(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
             LOGGER.info("Executed delete - Success [id={}]", id);
             return rs.next();
         } catch (SQLException e) {

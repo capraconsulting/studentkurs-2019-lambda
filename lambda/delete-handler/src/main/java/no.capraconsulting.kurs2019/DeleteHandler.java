@@ -2,6 +2,7 @@ package no.capraconsulting.kurs2019;
 
 import no.capraconsulting.kurs2019.domain.Request;
 import no.capraconsulting.kurs2019.domain.Response;
+import no.capraconsulting.kurs2019.domain.ResponseBody;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,17 +14,16 @@ public class DeleteHandler extends AbstractRequestHandler {
 
     @Override
     public void handleRequest(Request req, Response res) throws IOException {
-        JSONObject body = new JSONObject();
-
-        boolean removed;
         String id = req.getPathParameter("id");
         if (id != null) {
-            removed = eventRepository.delete(id);
-            body.put("message", removed ? "Event deleted" : "Could not delete event");
+            boolean removed = eventRepository.delete(id);
+            if (removed) {
+                res.send(new ResponseBody(200));
+            } else {
+                res.send(new ResponseBody(500, "Could not delete event from DB"));
+            }
         } else {
-            body.put("message", "Missing id");
+            res.send(new ResponseBody(400, "Could not delete event, missing ID"));
         }
-
-        res.send(body);
     }
 }

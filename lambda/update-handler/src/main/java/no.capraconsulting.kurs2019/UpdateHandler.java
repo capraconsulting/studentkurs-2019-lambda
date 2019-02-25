@@ -3,6 +3,8 @@ package no.capraconsulting.kurs2019;
 import no.capraconsulting.kurs2019.domain.Event;
 import no.capraconsulting.kurs2019.domain.Request;
 import no.capraconsulting.kurs2019.domain.Response;
+import no.capraconsulting.kurs2019.domain.ResponseBody;
+import no.capraconsulting.kurs2019.utils.JsonUtils;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,24 +16,22 @@ public class UpdateHandler extends AbstractRequestHandler {
 
     @Override
     public void handleRequest(Request req, Response res) throws IOException {
-        JSONObject body = new JSONObject();
-
         if (req.getBody() != null) {
             Event event = new Event(req.getBody());
 
-            boolean updated;
-
             String id = req.getPathParameter("id");
             if (id != null) {
-                updated = eventRepository.update(id, event);
-                body.put("message", updated ? "Updated Event" : "Could not update event");
+                Event updatedEvent = eventRepository.update(id, event);
+                if (updatedEvent != null) {
+                    res.send(new ResponseBody(200, JsonUtils.toJSON(updatedEvent)));
+                } else {
+                    res.send(new ResponseBody(500, "Could not update event"));
+                }
             } else {
-                body.put("message", "Missing id");
+                res.send(new ResponseBody(400, "Missing ID"));
             }
         } else {
-            body.put("message", "Missing event");
+            res.send(new ResponseBody(400, "Missing event body"));
         }
-
-        res.send(body);
     }
 }
