@@ -11,20 +11,20 @@ public class ResponseBody {
 
     public ResponseBody(int statusCode, String body) {
         this.statusCode = statusCode;
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Access-Control-Allow-Origin", "*");
-        headers.put("Access-Control-Allow-Headers", "*");
-        headers.put("Access-Control-Allow-Methods", "*");
-        this.headers = headers;
+        this.headers = getHeaders();
         this.body = body;
     }
 
     public ResponseBody(int statusCode) {
         this.statusCode = statusCode;
+        this.headers = getHeaders();
+    }
+
+    private Map<String, String> getHeaders() {
         Map<String, String> headers = new HashMap<>();
         headers.put("Access-Control-Allow-Origin", "*");
         headers.put("Access-Control-Allow-Headers", "*");
         headers.put("Access-Control-Allow-Methods", "*");
-        this.headers = headers;
+        return headers;
     }
 }

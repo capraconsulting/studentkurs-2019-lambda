@@ -45,14 +45,6 @@ public class EventRepository {
         }
     }
 
-    private ResultSet performQuery(String query, String... args) throws SQLException {
-        Driver driver = new org.postgresql.Driver();
-        DriverManager.registerDriver(driver);
-        Connection connection = DriverManager.getConnection(DB_URL + ":" + DB_PORT + "/" + DB_NAME, DB_USERNAME, DB_PASSWORD);
-        PreparedStatement statement = connection.prepareStatement(query, args);
-        return statement.executeQuery();
-    }
-
     private Connection getConnection() {
         try {
             Driver driver = new org.postgresql.Driver();
