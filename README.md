@@ -19,7 +19,7 @@ Når du er klar kan du fortsette med følgende:
 1. Klon dette repoet med koden for Lambda funksjoner
 
 ```
-$ git clone https://github.com/capraconsulting/studentkurs-2019
+$ git clone https://github.com/capraconsulting/studentkurs-2019-lambda.git
 ```
 
 2. Klone [webapp](https://github.com/capraconsulting/studentkurs-2019-webapp) og følg instruksjonene fra README-filen der for å komme i gang
