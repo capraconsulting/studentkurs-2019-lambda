@@ -468,10 +468,10 @@ AWS har tjenester for å sende varsler på ulike måter, for eksempel via e-post
 
 #### Implementer bildeopplasting i webapplikasjonen
 
-Vi ønsker også å kunne ha bilder på arrangementene, slik at man kan vekke interessen til besøkende på en bedre måte. For å få til det må vi:
+Vi ønsker også å kunne laste opp bilder til arrangementene, slik at man kan vekke interessen til besøkende på en bedre måte. For å få til det må vi:
 
 1. Implemnetere opplasting av bilder i webapplikasjonen
-2. Lagre plasseringen av bildene med arrangementet, altså legge dette til et felt som vi sender til backend for lagring
+2. Lagre plasseringen av bildene med arrangementet, altså ha et felt for bilde. Dette finnes allerede, feltet `url` er alt i bruk for dette i web-applikasjonen.
 3. Vise bildet for arrangementer som har det, altså implementere dette i webapplikasjonen
 
 Å kunne lagre bilder kan implemneteres direkte mot S3 fra webapplikasjonen. [Denne siden](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/s3-example-photo-album.html) bør kunne være en pekepinn på hvordan man gjør det.
