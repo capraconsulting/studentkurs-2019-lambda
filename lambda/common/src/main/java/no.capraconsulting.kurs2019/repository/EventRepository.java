@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 public class EventRepository {
@@ -69,6 +70,7 @@ public class EventRepository {
 	public boolean create(Event event) {
 		LOGGER.info("Executing create");
 		try {
+			event.setId(UUID.randomUUID().toString());
 			ResultSet rs = performQuery(
 					"INSERT INTO events (id, data) VALUES (?, ?)",
 					String.valueOf(event.getId()),

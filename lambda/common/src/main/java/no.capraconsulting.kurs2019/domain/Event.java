@@ -2,14 +2,12 @@ package no.capraconsulting.kurs2019.domain;
 
 import com.google.gson.Gson;
 
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Event {
-	private final static AtomicLong ID = new AtomicLong(0);
-
 	private String id;
 	private String data;
-
 
 	public Event() {
 		id = "";
@@ -25,7 +23,6 @@ public class Event {
 		Gson gson = new Gson();
 		Event e = gson.fromJson(json, Event.class);
 	}
-
 
 	public String getId() {
 		return id;
