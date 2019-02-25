@@ -46,13 +46,15 @@ I dette kurset skal vi først sette opp tjenester med nettleseren, i den såkalt
 
 ## Vi setter opp AWS-tjenester for applikasjonen vår
 
-En vanlig web-applikasjon har tre lag: frontend, backend og en database. Frontenden er det vi ser, brukegrensesnittet. Backend har logikk og håndterer henvendelser fra frontend. Databasen lagrer data. Denne enkle figuren viser hvordan det kan se ut:
+En vanlig web-applikasjon har tre lag: frontend, backend og en database. Frontenden er det vi ser, brukegrensesnittet. Backend har logikk og håndterer henvendelser fra frontend. Databasen lagrer data. Denne enkle figuren viser hvordan dette kan se ut:
 
 ![En enkel applikasjon med en backend, frontend og database.](images/simple-app-arch.png)
 
-Når vi kjører dette, enten lokalt eller på en server, kjører vi ofte tre ting: En web-applikasjon (frontend), en backend-applikasjon (for eksempel skrevet i Java) og en database (som Postgres eller MySQL). Da må man passe på at serveren, eller egen maskin, er oppdatert og tettet for alle sikkerhetshull.
+Når vi kjører dette, enten lokalt eller på en server, kjører vi ofte tre ting: En web-applikasjon (frontend), en backend-applikasjon (for eksempel skrevet i Java) og en database (som Postgres eller MySQL). Da må man passe på at serveren, altså datamaskinen dette kjører på, er oppdatert og tettet for alle sikkerhetshull.
 
-Når vi jobber med AWS, kan vi i stedet bruke tjenester som er spesielt designet for det vi ønsker å gjøre, være seg å kjøre backend-kode eller vise en web-applikasjon. Man kan kombinere tjenester slik at man oppnår de egenskapene til systemet som man ønsker. I dette kurset vil vi ha en arkitektur som ser slik ut:
+Når vi jobber med AWS, kan vi i stedet bruke tjenester som er spesielt designet for det vi ønsker å gjøre, være seg å kjøre backend-kode eller vise en web-applikasjon. Man kan kombinere tjenester slik at man oppnår de egenskapene til systemet som man ønsker. Tjenestene er gjerne det vi kaller «fully managed», som betyr at vi ikke trenger å forholde oss til serverne som dette faktisk kjører på.
+
+I dette kurset vil vi ha en arkitektur som ser slik ut:
 
 ![En enkel arkitektur med appen i AWS](images/AWS-app-arch.png)
 
@@ -64,6 +66,12 @@ Når vi jobber med AWS, kan vi i stedet bruke tjenester som er spesielt designet
 | Lambda Functions            | -            | Lambda Functions lar deg kjøre koden din, helt uten en tradisjonell server. ...                                                                                                                                                                                                                                                           |
 
 Videre vil vi sette opp hver av disse tjenestene etter tur.
+
+#### Om Regioner og Availability Zones
+
+AWS har flere _regioner_. En region er et geografisk område som har et sett datasentere. Et eller flere datasenter samlet på et sted kalles en _Availability Zone_, eller _AZ_. En region har altså flere Availability Zones.
+
+I dette kurset skal vi benytte oss av regionen `eu-north-1`. Den er helt ny, og ligger i Stockholm. Du velger region øverst til høyre i AWS konsollen.
 
 <br/>
 
@@ -231,10 +239,26 @@ I dette steget skal vi opprette Lambda-funksjoner, ett for hvert endepunkt. Dere
 2. Sjekk at du er i AWS-region Stockholm, også kjent som `eu-north-1`. Dette ser du øverst i venstre hjørnet. Hvis du ikke er det allerede, bytter du til `eu-north-1` Stockholm.
 3. Gå til Lambda
 4. Trykk «Create function»
-5. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksemepl `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Create a custom role», noe som åpner et nytt vindu. Der kan du bare trykke «Allow» nederst til høyre.
+5. Du sjekker at «Author from scratch» er valgt øverst. Du gir funksjonen et navn under «Name». Dette bør være noe unikt, som gjør at du kjenner igjen funksjonen. For eksempel `myeventsapp-GET-events`. Under Runtime velger du Java 8. Under «Role» velger du «Create a custom role», noe som åpner et nytt vindu. SE til at navnet på rollen er `service-roles/basic_lambda_execution`. Trykk så «Allow» nederst til høyre.
 6. Trykk «Create function»
 
 <br/>
+
+#### Gi Lambdaen rettigheter til databasen
+
+I AWS har vi en tjeneste som heter AWS IAM, AWS Identity and Access Management. Denne tjenesten håndterer roller, brukere og brukergrupper på tvers av alle tjenester, og hvilke rettigheter disse har.
+
+I foregående steg gav vi Lambdaene en rolle `service-roles/basic_lambda_execution`. Vi må gi denne rollen rettigheter til å gjøre operasjoner over nettverket, slik at den ikke bare kan koble seg til en database men også skrive, lese og slette data fra den.
+
+Vi gjør følgende:
+
+1. Åpne eller logg inn i [AWS Management Console](https://eu-north-1.console.aws.amazon.com/console).
+2. Sjekk at du er i AWS-region Stockholm, også kjent som `eu-north-1`. Dette ser du øverst i venstre hjørnet. Hvis du ikke er det allerede, bytter du til `eu-north-1` Stockholm.
+3. Gå til tjenesten IAM
+4. Velg «Roles» i menyen til venstre
+5. Velg rollen til Lambdaen, `service-roles/basic_lambda_execution`
+6. Velg fanen «Permissions» og så «Attach policies»
+7. Velg policiy `AWSLambdaVPCAccessExecutionRole` (du kan søke etter den øverst), og trykk «Attach policy»
 
 #### Bygg Lambda-funksjonene
 
