@@ -14,7 +14,6 @@ public class Request {
 
     public Request(InputStream inputStream) throws IOException, ParseException {
         this.request = (JSONObject) new JSONParser().parse(new BufferedReader(new InputStreamReader((inputStream))));
-        System.out.println(this.request.toString());
     }
 
     public String getBody() {
