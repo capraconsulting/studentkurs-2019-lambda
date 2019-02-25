@@ -95,14 +95,15 @@ public class EventRepository {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO events (id, data) VALUES(?, ?::jsonb)");
             preparedStatement.setString(1, event.getId());
             preparedStatement.setString(2, event.getData());
-            ResultSet rs = preparedStatement.executeQuery();
 
-            if (rs.next()) {
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected == 1) {
                 LOGGER.info("Executed create - Success");
                 return event;
+            } else {
+                LOGGER.info("Executed create - Failed");
+                return null;
             }
-            LOGGER.error("Could not save event to database");
-            return null;
         } catch (SQLException e) {
             LOGGER.error("Executed create - Failure [message={}]", e.getMessage());
             e.printStackTrace();
