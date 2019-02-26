@@ -422,7 +422,11 @@ Det som må gjøres er:
 
 #### Endre endepunkt i webappen
 
-@TODO hvor og hvordan gjør man endringene
+Nå må vi endre koden for webappen, slik at vi går mot endepunktet du lagde i API Gateway.
+
+1. Åpne repoet `studentkurs-2019-webapp` i en passende editor, for eksempel Visual Studio Code
+2. Åpne filen `eventService.ts` i `src/services`
+3. Noe kode er kommentert ut. Fjern kommentering og sett endepunktet. Husk å lagre filen!
 
 <br/>
 
