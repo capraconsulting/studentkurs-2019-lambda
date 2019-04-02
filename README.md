@@ -130,6 +130,9 @@ Når du har et bygg er alt klart: Vi kan publisere appen! Det gjør vi enten ved
 5. Trykk «Next»
 6. Og «Next» nok en gang. Til slutt «Upload»
 
+Tips:
+- Noen ad-blockers gjør at opplastingen til S3 feiler med en feilmelding som sier "100% fail", så om du opplever dette, prøv å deaktivere ad-blockeren du bruker og prøv på nytt.
+
 **Med kommandolinje:**
 
 1. Åpne en ny terminal og gå til mappen du har klonet web-applikasjonen i
@@ -212,16 +215,18 @@ For eksemepel:
 $ psql -U eventsappuser  --password -h eventsappinstance.cwkzdvvfjrvm.eu-west-1.rds.amazonaws.com -d eventsapp -a -f db/setup.sql
 ```
 
+
 #### Opprett regler for tilgang til database
 
 Vi ønsker å begrense hvem som har tilgang til å koble seg på databasen fra nå av. Da må vi justere Security Group for databasen. Det gjør vi slik:
 
-1. Velg "Services" helt øverst og deretter "EC2" under "Compute"-kategorien.
-2. Under "Network & Security" i fanen til venstre trykker du på "Security Groups"
-3. Trykk på Security Group-en som har `rds-launch-wizard` som "Group Name"
-4. Velg fanen "Inbound". Du ser nå en oversikt over regler for innkommende trafikk til denne sikkerhetsgruppen. Trykk "Edit".
-5. Legg til en ny regel ("Add Rule") og fyll den ut med `Type: PostgreSQL` og `Source: Custom`. I input-feltet kan du begynne å skrive "sg" og du vil da få opp en liste med sikkerhetsgrupper. Velg ID-en til `rds-launch-wizard`. Dette står som "Group ID" i listen over Security Groups.
-6. Det skal da se cirka slik ut:
+1. Gå tilbake til AWS-konsollen
+2. Velg "Services" helt øverst og deretter "EC2" under "Compute"-kategorien.
+3. Under "Network & Security" i fanen til venstre trykker du på "Security Groups"
+4. Trykk på Security Group-en som har `rds-launch-wizard` som "Group Name"
+5. Velg fanen "Inbound". Du ser nå en oversikt over regler for innkommende trafikk til denne sikkerhetsgruppen. Trykk "Edit".
+6. Legg til en ny regel ("Add Rule") og fyll den ut med `Type: PostgreSQL` og `Source: Custom`. I input-feltet kan du begynne å skrive "sg" og du vil da få opp en liste med sikkerhetsgrupper. Velg ID-en til `rds-launch-wizard`. Dette står som "Group ID" i listen over Security Groups.
+7. Det skal da se cirka slik ut:
 
 ![Security Group Rules](images/security-group-rules.png)
 
@@ -230,6 +235,8 @@ Vi ønsker å begrense hvem som har tilgang til å koble seg på databasen fra n
 Lambda er en tjeneste i AWS for å kjøre kode på forespørsel uten tradisjonelle servere. Med andre ord kjøres koden kun ved behov, for eksempel ved kall fra API Gateway. Det betyr at vi kan ha en backend, eller en funksjon, for hvert eneste endepunkt. Det gjør videre at vi får en applikasjon hvor de ulike endepunktene har veldig liten kobling mellom hverandre, og kan oppdateres uavhengig av hverandre.
 
 I dette steget skal vi opprette Lambda-funksjoner, ett for hvert endepunkt. Deretter skal vi laste koden vår opp, enten ved hjelp av CLI eller nettleseren.
+
+Du trenger ikke sette opp alle Lambda-funksjonene med en gang, men kan for eksempel først implementere metoden for å hente alle Events, og så gjøre resten av guiden ferdig først, for så å gå tilbake og implementere resten av Lambda-funksjonene i etterkant. På denne måten kan du verifisere at flyten helt fra databsen og til WebAppen er satt opp riktig før du går løs på resten av metodene.
 
 <br/>
 
@@ -363,7 +370,7 @@ Når man har opprettet et API, havner man automatisk i editoren for å lage API 
 I APi Gateway har vi to konsepter: _Resources_, og _Methods_. En Resource er en ressurs, eller en entitet. I vårt tilfelle er et eksemepl på en slik en ett enkelt event. Vi må opprette ressurser i APIet vårt. Hver ressurs vil også representere et endepunkt. Gjør følgende for å lage en ressurs:
 
 1. Trykk på «Actions» og trykk «Create resource»
-2. Du vil da få opp et skjermbilde for å opprette en ressurs. «Resource name» er navnet på ressursen, og er kun for at man skal skjønne hva det er for noe man ser ressursen i editoren for API Gateway. «Resource Path» er endepunktet. Fyll ut begge basert på tabellen som beskriver API ovenfor. Det første du skal opprette er da altså `events`.
+2. Du vil da få opp et skjermbilde for å opprette en ressurs. «Resource name» er navnet på ressursen, og er kun for at man skal skjønne hva det er for noe når man ser ressursen i editoren for API Gateway. «Resource Path» er endepunktet. Fyll ut begge basert på tabellen som beskriver API ovenfor. Huk også av for «Enable API Gateway CORS» sånn at det automatisk blir oprettet en options-metode for ressursen. Det første du skal opprette er da altså `events`.
 3. Gjenta dette slik at du får en struktur som den beskrevet ovenfor, altså en ressurs `/events` og under der en ressurs `{uuid}`
 
 ![Actions-menu i API Gateway](images/api-gateway-create-resource.png)
@@ -381,7 +388,7 @@ Nå som vi har ressurser kan vi knytte metoder til dem, som vi peker mot Lambda-
 
 1. Trykk «Actions» og så «Create method»
 2. Velg HTTP-metode i dropdown-menyen
-3. Du får da mulighet for å konfigurere metoden mot endepunktet. Vi skal sende requests til endepukntet mot en Lambda, så velg « Lambda Function» og søk på funksjonen du vil knytte til endepunktet i boksen for «Lambda Function». Velg den du skal ha, og trykk «OK» i vinduet som dukker opp. Det sørger for at de riktige tillatlesene settes opp. Huk av for «Use Lambda Proxy integration»
+3. Du får da mulighet for å konfigurere metoden mot endepunktet. Vi skal sende requests til endepukntet mot en Lambda, så velg _Integration type_ til å være «Lambda Function» og søk på funksjonen du vil knytte til endepunktet i boksen for «Lambda Function». Velg den du skal ha, og trykk «OK» i vinduet som dukker opp. Det sørger for at de riktige tillatlesene settes opp. Huk av for «Use Lambda Proxy integration»
 4. Når du er ferdig trykker du «Save»
 
 ![Endre Method-visning i AWS-console](images/api-gateway-add-lambda.png)
